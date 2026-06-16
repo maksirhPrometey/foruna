@@ -1,0 +1,52 @@
+---
+description: ideal_cols algorithm for product card grids — no orphan cards
+globs: templates/**/*.html
+alwaysApply: false
+---
+
+# Карткові гриди — алгоритм ideal_cols
+
+Будь-яка сітка карток із **динамічною** кількістю елементів зобов'язана використовувати `ideal_cols`.
+
+## Патерн (DB-driven список)
+
+```html
+{% load site_tags %}
+
+{% with n=products|length %}
+<div class="products-grid
+            grid-tablet-cols-{{ n|ideal_cols:2 }}
+            grid-desktop-cols-{{ n|ideal_cols:3 }}">
+  {% for p in products %}...{% endfor %}
+</div>
+{% endwith %}
+```
+
+## Патерн (статичний placeholder)
+
+Порахуй кількість вручну → встав клас:
+
+| Кількість | `grid-desktop-cols-?` |
+|-----------|----------------------|
+| 1 | `grid-desktop-cols-1` |
+| 2 | `grid-desktop-cols-2` |
+| 3 | `grid-desktop-cols-3` |
+| 4 | `grid-desktop-cols-2` ← ideal_cols(4,3)=2 |
+| 6 | `grid-desktop-cols-3` |
+
+❌ Ніколи не пиши просто `class="products-grid"` для динамічного списку — це фіксує 3 колонки і гарантує orphan при N=4,5,7...
+
+## CSS-класи (вже в components.css)
+
+```css
+@media (min-width: 640px)  { .grid-tablet-cols-{1,2} }
+@media (min-width: 1024px) { .grid-desktop-cols-{1,2,3} }
+```
+
+## Безпечні ліміти в QuerySet (view)
+
+Щоб уникнути orphan — обрізай до числа, кратного max_cols:
+```python
+products = Product.objects.filter(is_active=True)[:9]  # ✓ ділиться на 3
+# НЕ [:5] — просте число дасть orphan
+```

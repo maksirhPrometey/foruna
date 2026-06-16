@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static site_tags %}
+
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block content %}
+
+<!-- Page hero -->
+<section class="page-hero bg-dark" aria-labelledby="brands-hero-title">
+  <div class="container">
+    <div class="page-hero__inner reveal">
+      <p class="label label-gold">Партнери</p>
+      <h1 class="page-hero__title display" id="brands-hero-title">{{ brands_page.hero_title }}</h1>
+      <p class="page-hero__subtitle body-lg">{{ brands_page.hero_subtitle }}</p>
+    </div>
+  </div>
+</section>
+
+<!-- Brands list -->
+{% if brands %}
+<section class="section-pad" aria-label="Бренди та партнери">
+  <div class="container">
+    <div class="brands-list">
+      {% for brand in brands %}
+      <article class="brand-card reveal" data-reveal-delay="{{ forloop.counter0|floatformat:1 }}00ms">
+        <div class="brand-card__header">
+          {% if brand.logo %}
+            <div class="brand-card__logo">
+              <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" loading="lazy">
+            </div>
+          {% else %}
+            <div class="brand-card__logo brand-card__logo--text">
+              <span class="brand-card__name-logo">{{ brand.name }}</span>
+            </div>
+          {% endif %}
+          <div class="brand-card__meta">
+            <h2 class="brand-card__title display">{{ brand.name }}</h2>
+            <div class="brand-card__tags">
+              {% if brand.country %}<span class="brand-tag">{{ brand.country }}</span>{% endif %}
+              {% if brand.founded %}<span class="brand-tag">з {{ brand.founded }}</span>{% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="brand-card__body">
+          <p class="body-md">{{ brand.description }}</p>
+
+          {% with portfolio=brand.get_portfolio_list %}
+            {% if portfolio %}
+            <div class="brand-card__portfolio">
+              <p class="label">Портфоліо</p>
+              <ul class="feature-list" role="list">
+                {% for item in portfolio %}<li>{{ item }}</li>{% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+          {% endwith %}
+
+          {% if brand.website %}
+            <a href="{{ brand.website }}" class="brand-card__link" target="_blank" rel="noopener noreferrer">
+              <span>Офіційний сайт</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4"/>
+              </svg>
+            </a>
+          {% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% else %}
+<section class="section-pad" aria-label="Бренди">
+  <div class="container">
+    <div class="coming-soon reveal">
+      <h2 class="subsection-title display">Контент у підготовці</h2>
+      <p class="body-lg">Інформація про бренди та партнерів компанії з'явиться найближчим часом.</p>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- CTA -->
+<section class="cta-section section-pad bg-dark" aria-labelledby="brands-cta-title">
+  <div class="container">
+    <div class="cta-grid">
+      <div class="cta-text reveal">
+        <p class="label label-gold">Запит</p>
+        <h2 class="section-title display" id="brands-cta-title">Підберемо обладнання під ваші задачі</h2>
+        <p class="body-lg">Залиште заявку — наш спеціаліст зв'яжеться з вами та запропонує оптимальне рішення від перевірених брендів.</p>
+      </div>
+      <div class="lead-form-wrapper reveal" data-reveal-delay=".1s">
+        {% include "partials/lead_form.html" with form=form %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% load static %}
+<footer class="site-footer" role="contentinfo">
+  <div class="footer__inner">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="{% url 'core:home' %}" aria-label="{{ site.company_name }} — головна">
+          <img src="{% static 'images/logo-light.svg' %}" alt="{{ site.company_name }}" width="160" height="44" loading="lazy">
+        </a>
+        <p class="footer__tagline">{{ site.tagline }}</p>
+      </div>
+
+      <nav class="footer__nav" aria-label="Навігація в підвалі">
+        <p class="footer__nav-title">Напрями</p>
+        <ul role="list">
+          <li><a href="{% url 'core:marking' %}">Маркування</a></li>
+          <li><a href="{% url 'core:quality_control' %}">Контроль якості</a></li>
+          <li><a href="{% url 'core:labeling' %}">Етикетування</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer__contacts">
+        <p class="footer__nav-title">Контакти</p>
+        <address>
+          {% if site.phone_1 %}
+            <a href="tel:{{ site.phone_1|cut:' ' }}" class="footer__contact-link">{{ site.phone_1 }}</a>
+          {% endif %}
+          {% if site.phone_2 %}
+            <a href="tel:{{ site.phone_2|cut:' ' }}" class="footer__contact-link">{{ site.phone_2 }}</a>
+          {% endif %}
+          {% if site.email %}
+            <a href="mailto:{{ site.email }}" class="footer__contact-link">{{ site.email }}</a>
+          {% endif %}
+          {% if site.address %}
+            <p class="footer__address">{{ site.address }}</p>
+          {% endif %}
+        </address>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__copy">&copy; {% now "Y" %} ТОВ «ФортунаПринт». Всі права захищені.</p>
+      <a href="{% url 'core:contacts' %}" class="footer__cta">Зв'язатись з нами →</a>
+    </div>
+  </div>
+</footer>

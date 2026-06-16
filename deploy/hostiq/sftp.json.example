@@ -1,0 +1,28 @@
+{
+    "name": "FortunaPrint — ADM.TOOLS",
+    "host": "185.104.45.94",
+    "protocol": "sftp",
+    "port": 22,
+    "username": "ep616268",
+    "password": "YOUR_CPANEL_PASSWORD",
+    "remotePath": "/",
+    "uploadOnSave": false,
+    "syncOption": {
+        "delete": false
+    },
+    "ignore": [
+        ".vscode",
+        ".git",
+        ".gitignore",
+        ".DS_Store",
+        "**/__pycache__/**",
+        "**/*.pyc",
+        ".venv/**",
+        "venv/**",
+        "db.sqlite3",
+        "backend/staticfiles/**",
+        "staticfiles/**",
+        ".env",
+        "media/**"
+    ]
+}

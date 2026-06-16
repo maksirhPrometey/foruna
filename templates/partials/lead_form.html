@@ -1,0 +1,50 @@
+{% load static %}
+<form class="lead-form"
+      hx-post="{% url 'leads:submit' %}"
+      hx-target="closest .lead-form-wrapper"
+      hx-swap="outerHTML">
+  {% csrf_token %}
+
+  <div class="lead-form__honeypot" aria-hidden="true">
+    <input type="text" name="honeypot" tabindex="-1" autocomplete="off">
+  </div>
+
+  {{ form.source }}
+
+  {% if form.non_field_errors %}
+    <div class="lead-form__errors" role="alert">
+      {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="lead-form__row">
+    <div class="lead-form__field">
+      <label class="lead-form__label" for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+      {{ form.name }}
+      {% if form.name.errors %}
+        <p class="lead-form__error" role="alert">{{ form.name.errors.0 }}</p>
+      {% endif %}
+    </div>
+    <div class="lead-form__field">
+      <label class="lead-form__label" for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+      {{ form.phone }}
+      {% if form.phone.errors %}
+        <p class="lead-form__error" role="alert">{{ form.phone.errors.0 }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="lead-form__field">
+    <label class="lead-form__label" for="{{ form.message.id_for_label }}">{{ form.message.label }} <span class="lead-form__optional">(необов'язково)</span></label>
+    {{ form.message }}
+  </div>
+
+  <button type="submit" class="btn-accent lead-form__submit">
+    <span>Надіслати заявку</span>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="M3 8h10M9 4l4 4-4 4"/>
+    </svg>
+  </button>
+</form>

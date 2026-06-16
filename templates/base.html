@@ -1,0 +1,67 @@
+{% load static site_tags %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>{% block title %}{{ page_title|default:site.company_name }}{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}{{ meta_description|default:site.tagline }}{% endblock %}">
+
+  <meta property="og:title" content="{% block og_title %}{{ page_title|default:site.company_name }}{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}{{ meta_description|default:site.tagline }}{% endblock %}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:locale" content="uk_UA">
+
+  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+  <meta name="theme-color" content="#C8A44A">
+
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'css/typography.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  {% block extra_css %}{% endblock %}
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "{{ site.company_name|escapejs }}",
+    "url": "{{ request.scheme }}://{{ request.get_host }}",
+    "telephone": "{{ site.phone_1|escapejs }}",
+    "email": "{{ site.email|escapejs }}",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "{{ site.street_address|escapejs }}",
+      "addressLocality": "{{ site.city|escapejs }}",
+      "postalCode": "{{ site.postal_code|escapejs }}",
+      "addressCountry": "UA"
+    }
+  }
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Перейти до контенту</a>
+
+  {% include "partials/header.html" %}
+  {% include "partials/mobile_menu.html" %}
+
+  <main id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include "partials/footer.html" %}
+
+  <script src="{% static 'django_htmx/htmx.min.js' %}" defer></script>
+  <script src="{% static 'js/header.js' %}" defer></script>
+  <script src="{% static 'js/mobile_menu.js' %}" defer></script>
+  <script src="{% static 'js/reveal.js' %}" defer></script>
+  <script src="{% static 'js/forms.js' %}" defer></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

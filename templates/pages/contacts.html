@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block content %}
+
+<section class="page-hero bg-dark" aria-labelledby="contacts-title">
+  <div class="container">
+    <div class="page-hero__inner reveal">
+      <p class="label label-gold">Контакти</p>
+      <h1 class="page-hero__title display" id="contacts-title">Зв'яжіться з нами</h1>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad" aria-label="Контактна інформація">
+  <div class="container">
+    <div class="contacts-grid">
+      <!-- Контактна інформація -->
+      <div class="contacts-info reveal">
+        <h2 class="subsection-title display">{{ site.company_name }}</h2>
+        <p class="body-lg">{{ contacts.intro_text }}</p>
+
+        <address class="contacts-details">
+          {% if site.phone_1 %}
+            <div class="contact-detail">
+              <dt class="label">Телефон</dt>
+              <dd>
+                <a href="tel:{{ site.phone_1|cut:' ' }}">{{ site.phone_1 }}</a>
+                {% if site.phone_2 %}
+                  <a href="tel:{{ site.phone_2|cut:' ' }}">{{ site.phone_2 }}</a>
+                {% endif %}
+              </dd>
+            </div>
+          {% endif %}
+          {% if site.email %}
+            <div class="contact-detail">
+              <dt class="label">Email</dt>
+              <dd><a href="mailto:{{ site.email }}">{{ site.email }}</a></dd>
+            </div>
+          {% endif %}
+          {% if site.address %}
+            <div class="contact-detail">
+              <dt class="label">Адреса</dt>
+              <dd>{{ site.address }}</dd>
+            </div>
+          {% endif %}
+          {% if site.website %}
+            <div class="contact-detail">
+              <dt class="label">Сайт</dt>
+              <dd><a href="{{ site.website }}" target="_blank" rel="noopener noreferrer">{{ site.website }}</a></dd>
+            </div>
+          {% endif %}
+        </address>
+
+        <div class="contacts-directions">
+          <p class="label">Наші напрями</p>
+          <ul class="feature-list" role="list">
+            <li><a href="{% url 'core:marking' %}">Маркування (УФ, CO₂, файбер лазери)</a></li>
+            <li><a href="{% url 'core:quality_control' %}">Системи контролю якості (металодетектори, рентгенівські інспектори, чеквейери)</a></li>
+            <li><a href="{% url 'core:labeling' %}">Етикетування</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Форма -->
+      <div class="contacts-form reveal" data-reveal-delay=".1s">
+        <h2 class="subsection-title display">Надіслати запит</h2>
+        <p class="body-md">Залиште заявку — ми зв'яжемося з вами протягом робочого дня.</p>
+        <div class="lead-form-wrapper">
+          {% include "partials/lead_form.html" with form=form %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

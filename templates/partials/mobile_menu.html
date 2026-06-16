@@ -1,0 +1,29 @@
+{% load static %}
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Мобільне меню">
+  <div class="mobile-menu__backdrop" data-menu-close></div>
+  <nav class="mobile-menu__panel" role="navigation" aria-label="Мобільна навігація">
+    <button class="mobile-menu__close" data-menu-close aria-label="Закрити меню">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <a href="{% url 'core:home' %}" class="mobile-menu__logo">
+      <img src="{% static 'images/logo-light.svg' %}" alt="FortunaPrint" width="140" height="40" loading="lazy">
+    </a>
+
+    <ul class="mobile-menu__list" role="list">
+      <li><a href="{% url 'core:marking' %}" class="mobile-menu__link">Маркування</a></li>
+      <li><a href="{% url 'core:quality_control' %}" class="mobile-menu__link">Контроль якості</a></li>
+      <li><a href="{% url 'core:labeling' %}" class="mobile-menu__link">Етикетування</a></li>
+      <li><a href="{% url 'core:brands' %}" class="mobile-menu__link">Бренди</a></li>
+      <li><a href="{% url 'core:contacts' %}" class="mobile-menu__link">Контакти</a></li>
+    </ul>
+
+    <div class="mobile-menu__contacts">
+      <a href="tel:+380503349262" class="mobile-menu__phone">+38 050 334 9262</a>
+      <a href="tel:+380664241553" class="mobile-menu__phone">+38 066 424 1553</a>
+    </div>
+  </nav>
+</div>

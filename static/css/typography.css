@@ -1,0 +1,83 @@
+/* === DISPLAY (Cormorant Garamond) === */
+.display {
+  font-family: var(--ff-display);
+  font-weight: 600;
+}
+
+.display-light {
+  font-family: var(--ff-display);
+  font-weight: 300;
+}
+
+.display-italic {
+  font-family: var(--ff-display);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* === SIZES === */
+.hero__title,
+.page-hero__title {
+  font-family: var(--ff-display);
+  font-weight: 300;
+  font-size: clamp(2.75rem, 7vw, 7rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.section-title {
+  font-size: clamp(2rem, 4.5vw, 4.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.015em;
+}
+
+.subsection-title {
+  font-size: clamp(1.75rem, 3vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.card-title {
+  font-size: clamp(1.25rem, 2vw, 1.875rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+/* === BODY === */
+.body-lg {
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  line-height: 1.7;
+}
+
+.body-md {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.body-sm {
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+/* === LABEL (caps) === */
+.label {
+  font-family: var(--ff-body);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.label-gold { color: var(--gold); }
+.label-light { color: var(--text-dim); }
+
+.caption {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* === PROSE === */
+.prose-content p { margin-bottom: 1em; }
+.prose-content p:last-child { margin-bottom: 0; }

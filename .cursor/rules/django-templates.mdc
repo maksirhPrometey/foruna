@@ -1,0 +1,40 @@
+---
+description: Django template authoring rules — load tags, partials, csrf
+globs: templates/**/*.html
+alwaysApply: false
+---
+
+# Django Templates — обов'язкові перевірки
+
+## 1. `{% load %}` — обов'язковий рядок 2
+
+Кожен шаблон, що extends base, ПОВИНЕН мати потрібні load-директиви відразу після `{% extends %}`:
+
+```html
+{% extends "base.html" %}
+{% load static site_tags %}   {# ← обидва, якщо використовуються фільтри/теги #}
+```
+
+**Коли потрібен `site_tags`:**
+- будь-який фільтр `|ideal_cols`, `|grid_style`
+- тег `{% active_nav ... %}`
+- будь-який кастомний тег/фільтр з `src/core/templatetags/site_tags.py`
+
+❌ НЕ можна писати `{{ items|ideal_cols:3 }}` без `{% load site_tags %}` — шаблон впаде з `TemplateSyntaxError`.
+
+## 2. Партіали — перевіряти існування файлу
+
+Перед `{% include "partials/foo.html" %}` — переконатись, що файл `templates/partials/foo.html` існує.  
+Якщо ні — створити його ПЕРЕД тим, як додати include.
+
+## 3. POST-форми
+
+Кожен `<form method="post">` повинен містити `{% csrf_token %}` першим дочірнім елементом.
+
+## 4. Checklist нового шаблону
+
+- [ ] `{% extends %}` — перший рядок
+- [ ] `{% load static site_tags %}` — другий рядок (якщо є кастомні теги)
+- [ ] `{% block title %}` і `{% block meta_description %}` заповнені
+- [ ] Всі `{% include "partials/..." %}` — файли існують
+- [ ] Немає inline `style=""` і `onclick=""`

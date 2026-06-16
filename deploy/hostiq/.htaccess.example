@@ -1,0 +1,31 @@
+# public_html/.htaccess — FortunaPrint на ADM.TOOLS (Ukraine.com.ua)
+# Після «Setup Python App» cPanel додасть блок Passenger — НЕ видаляйте його.
+# Замініть <CPANEL_USER> та шлях до Python після створення Python App у панелі.
+
+<FilesMatch "\.(css|js|ico|jpg|jpeg|png|gif|webp|svg|woff|woff2|ttf|otf|pdf)$">
+    <IfModule mod_headers.c>
+        Header set Cache-Control "public, max-age=31536000"
+        Header unset Pragma
+    </IfModule>
+</FilesMatch>
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/css text/html text/javascript text/plain
+    AddOutputFilterByType DEFLATE application/javascript application/json
+    AddOutputFilterByType DEFLATE font/woff font/woff2 image/svg+xml
+</IfModule>
+
+<IfModule Litespeed>
+    SetEnv noabort 1
+</IfModule>
+
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/<CPANEL_USER>/backend"
+PassengerBaseURI "/"
+PassengerPython "/home/<CPANEL_USER>/virtualenv/backend/3.12/bin/python"
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION BEGIN
+<IfModule Litespeed>
+</IfModule>
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION END
