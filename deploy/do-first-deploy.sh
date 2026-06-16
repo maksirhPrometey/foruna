@@ -57,7 +57,14 @@ ${COMPOSE} up -d
 echo "==> Waiting for backend..."
 sleep 15
 
-# ── 5. Superuser ──────────────────────────────────────────────────────────────
+# ── 5. Seed контент + зображення ─────────────────────────────────────────────
+echo "==> Seed: текстовий контент..."
+${COMPOSE} exec backend python manage.py seed_production
+
+echo "==> Seed: зображення продуктів та логотипи..."
+${COMPOSE} exec backend python manage.py seed_images
+
+# ── 6. Superuser ──────────────────────────────────────────────────────────────
 echo ""
 echo "==> Створення суперкористувача (введи логін/пароль для /admin/):"
 ${COMPOSE} exec backend python manage.py createsuperuser
