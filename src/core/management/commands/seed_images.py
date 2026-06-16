@@ -16,9 +16,9 @@ from django.core.management.base import BaseCommand
 
 # ── Маппінг: laser_type → реальний файл у media/ ──────────────────────────────
 LASER_IMAGES = {
-    'uv':    'lasers/lasers/uv_laser.jpg',
-    'co2':   'lasers/lasers/co2_laser.jpg',
-    'fiber': 'lasers/lasers/fiber_laser.jpg',
+    'uv':    'marking/laser_uv_clean.jpg',
+    'co2':   'marking/laser_co2_clean.jpg',
+    'fiber': 'marking/laser_fiber_clean.jpg',
 }
 
 # ── Маппінг: QualityProduct.title (substring) → файл ─────────────────────────
