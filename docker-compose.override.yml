@@ -1,0 +1,17 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: deploy/backend/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.develop
+      DEBUG: "True"
+    ports:
+      - "8000:8000"
+
+  db:
+    ports:
+      - "5432:5432"
