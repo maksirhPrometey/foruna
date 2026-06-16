@@ -22,17 +22,18 @@ LASER_IMAGES = {
 }
 
 # ── Маппінг: QualityProduct.title (substring) → файл ─────────────────────────
+# Використовуємо ASCII-назви файлів — надійніші при docker cp
 QUALITY_IMAGES = {
-    'FMD-3010':  'quality/quality/металодетектор-фортунапринт-fmd-3010-fmd-3015.jpg',
-    'FMD-5015':  'quality/quality/металодетектор-фортунапринт-fmd-5015-fmd-5020.jpg',
-    'FMD-YCW-210': 'quality/quality/комбінована-система-fmd-ycw-210-металодетектор-чеквейер.jpg',
-    'FMD-YCW-300': 'quality/quality/комбінована-система-fmd-ycw-300-металодетектор-чеквейер.jpg',
-    'FOODMAN (базова': 'quality/quality/рентгенівський-інспектор-foodman-базова-серія.jpg',
-    'FOODMAN (рівень': 'quality/quality/рентгенівський-інспектор-foodman-рівень-наливу.jpg',
-    'YCW-150':   'quality/quality/чеквейер-фортунапринт-ycw-150-ycw-210.jpg',
-    'YCW-300':   'quality/quality/чеквейер-фортунапринт-ycw-300-ycw-500-ycw-600.jpg',
-    'T-LINE (базова': 'quality/quality/система-контролю-розливу-t-line-базова.jpg',
-    'FMS':       'quality/quality/система-fms-filling-management-system.jpg',
+    'FMD-3010':    'quality/easyweigh_metal_detector.jpg',
+    'FMD-5015':    'quality/easyweigh_metal_detector.jpg',
+    'FMD-YCW-210': 'quality/easyweigh_combi.jpg',
+    'FMD-YCW-300': 'quality/easyweigh_combi.jpg',
+    'FOODMAN (базова': 'quality/easyweigh_xray.jpg',
+    'FOODMAN (рівень': 'quality/easyweigh_xray.jpg',
+    'YCW-150':     'quality/easyweigh_checkweigher.jpg',
+    'YCW-300':     'quality/easyweigh_checkweigher.jpg',
+    'T-LINE (базова': 'quality/tline_filling.jpg',
+    'FMS':         'quality/tline_fms.jpg',
 }
 
 # ── Маппінг: LabelingProduct.title (substring) → файл ────────────────────────
