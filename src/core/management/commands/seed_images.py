@@ -16,9 +16,9 @@ from django.core.management.base import BaseCommand
 
 # ── Маппінг: laser_type → реальний файл у media/ ──────────────────────────────
 LASER_IMAGES = {
-    'uv':    'marking/laser_uv_clean.jpg',
-    'co2':   'marking/laser_co2_clean.jpg',
-    'fiber': 'marking/laser_fiber_clean.jpg',
+    'uv':    'lasers/lasers/uv_laser.jpg',
+    'co2':   'lasers/lasers/co2_laser.jpg',
+    'fiber': 'lasers/lasers/fiber_laser.jpg',
 }
 
 # ── Маппінг: QualityProduct.title (substring) → файл ─────────────────────────
@@ -147,6 +147,7 @@ class Command(BaseCommand):
         total += self._seed_lasers(LaserProduct, force)
         total += self._seed_quality(QualityProduct, force)
         total += self._seed_labeling(LabelingProduct, force)
+        total += self._seed_cij_tto(force)
         total += self._seed_brands(Brand, force)
 
         self.stdout.write(self.style.SUCCESS(
@@ -211,6 +212,45 @@ class Command(BaseCommand):
                     PALETTE['default'], force)
                 tag = 'placeholder' if saved else 'вже є'
             self.stdout.write(f'  [{obj.category}] {obj.title[:50]} — {tag}')
+            if saved:
+                count += 1
+        return count
+
+    def _seed_cij_tto(self, force: bool) -> int:
+        from src.content.models_extra import CIJProduct, TTOProduct
+        self.stdout.write('\n[5/6] CIJ маркіратори (LINX)...')
+        count = 0
+        CIJ_IMAGES = {
+            '89xx': 'marking/cij/linx_8900.jpg',
+            '99xx': 'marking/cij/linx_99xx.jpg',
+        }
+        for obj in CIJProduct.objects.all():
+            rel = CIJ_IMAGES.get(obj.series)
+            if rel and _real_path(rel):
+                saved = _set_field_path(obj, 'image', rel, force)
+                tag = '✓ реальне' if saved else 'вже є'
+            else:
+                tag = 'файл не знайдено'
+                saved = False
+            self.stdout.write(f'  {obj.title[:55]} — {tag}')
+            if saved:
+                count += 1
+
+        self.stdout.write('\n[6/6] TTO маркіратори (LINX)...')
+        TTO_IMAGES = {
+            'TT500':  'marking/tto/linx_tt500.jpg',
+            'TT750':  'marking/tto/linx_tt750.jpg',
+            'TT1000': 'marking/tto/linx_tt1000.jpg',
+        }
+        for obj in TTOProduct.objects.all():
+            rel = TTO_IMAGES.get(obj.model_series)
+            if rel and _real_path(rel):
+                saved = _set_field_path(obj, 'image', rel, force)
+                tag = '✓ реальне' if saved else 'вже є'
+            else:
+                tag = 'файл не знайдено'
+                saved = False
+            self.stdout.write(f'  {obj.title[:55]} — {tag}')
             if saved:
                 count += 1
         return count

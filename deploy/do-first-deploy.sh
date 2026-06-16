@@ -61,6 +61,9 @@ sleep 15
 echo "==> Seed: текстовий контент..."
 ${COMPOSE} exec backend python manage.py seed_production
 
+echo "==> Seed: LINX маркіратори (CIJ + TTO)..."
+${COMPOSE} exec backend python manage.py seed_marking
+
 echo "==> Seed: зображення продуктів та логотипи..."
 ${COMPOSE} exec backend python manage.py seed_images
 
