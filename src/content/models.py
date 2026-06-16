@@ -387,7 +387,7 @@ class QualityProduct(models.Model):
     ]
     category = models.CharField('Категорія', max_length=20, choices=CATEGORY_CHOICES)
     title = models.CharField('Назва', max_length=160)
-    slug = models.SlugField('Slug', unique=True, blank=True)
+    slug = models.SlugField('Slug', unique=True, blank=True, max_length=200)
     subtitle = models.CharField('Підзаголовок', max_length=255, blank=True)
     description = models.TextField('Опис')
     image = models.ImageField('Зображення', upload_to='quality/', blank=True, null=True)
