@@ -1,4 +1,5 @@
 # Команда для поля «Команда запуска» в ADM.TOOLS
 # Замініть 127.0.0.1:3000 на IP і порт з блоку «Проксирование HTTP-трафика»
+# Не використовуйте source activate — alias python у .bashrc вказує на 3.8
 
-cd /home/ep616268/fortprint.com.ua && source .venv/bin/activate && gunicorn config.wsgi:application --bind 127.0.0.1:3000 --workers 2 --timeout 120
+cd /home/ep616268/fortprint.com.ua && .venv/bin/gunicorn config.wsgi:application --bind 127.0.0.1:3000 --workers 2 --timeout 120
