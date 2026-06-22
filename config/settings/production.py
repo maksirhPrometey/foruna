@@ -1,11 +1,17 @@
 from decouple import config
-from .base import *  # noqa: F401, F403
-
-DEBUG = False
 
 _db_engine = config('DB_ENGINE', default='').lower()
 if not _db_engine:
     _db_engine = 'postgresql' if config('POSTGRES_DB', default='') else 'mysql'
+
+if _db_engine != 'postgresql':
+    from config.pymysql_bootstrap import install_pymysql
+
+    install_pymysql()
+
+from .base import *  # noqa: F401, F403
+
+DEBUG = False
 
 if _db_engine == 'postgresql':
     DATABASES = {
