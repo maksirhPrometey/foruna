@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "description": "Пакет динамічного контенту FortunaPrint. Тексти — у data/*.json, зображення — assets/media/, PDF — assets/static/. Імпорт: python manage.py import_content [--dir content] [--force]",
+  "import_order": [
+    "site_config.json",
+    "stat_items.json",
+    "home_page.json",
+    "marking_page.json",
+    "quality_control_page.json",
+    "labeling_page.json",
+    "contacts_page.json",
+    "brands_page.json",
+    "laser_products.json",
+    "quality_category_sections.json",
+    "quality_products.json",
+    "labeling_category_sections.json",
+    "labeling_products.json",
+    "brands.json",
+    "cij_products.json",
+    "tto_products.json",
+    "brochures.json"
+  ],
+  "assets": {
+    "media": "assets/media",
+    "static": "assets/static"
+  },
+  "post_import": {
+    "deactivate_quality_products": [
+      {
+        "category": "xray",
+        "title_contains": "рівень наливу"
+      }
+    ],
+    "quality_section_updates": [
+      {
+        "category": "filling",
+        "fields": {
+          "body_secondary": ""
+        }
+      }
+    ],
+    "link_labeling_page_products": true,
+    "link_home_stats": true
+  }
+}

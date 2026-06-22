@@ -1,0 +1,17 @@
+[
+  {
+    "laser_type": "uv",
+    "static_path": "brochures/lasers/uv-laser.pdf",
+    "url_path": "/static/brochures/lasers/uv-laser.pdf"
+  },
+  {
+    "laser_type": "co2",
+    "static_path": "brochures/lasers/co2-laser.pdf",
+    "url_path": "/static/brochures/lasers/co2-laser.pdf"
+  },
+  {
+    "laser_type": "fiber",
+    "static_path": "brochures/lasers/fiber-laser.pdf",
+    "url_path": "/static/brochures/lasers/fiber-laser.pdf"
+  }
+]
