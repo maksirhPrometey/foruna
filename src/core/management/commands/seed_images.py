@@ -29,7 +29,6 @@ QUALITY_IMAGES = {
     'FMD-YCW-210': 'quality/easyweigh_combi.jpg',
     'FMD-YCW-300': 'quality/easyweigh_combi.jpg',
     'FOODMAN (базова': 'quality/easyweigh_xray.jpg',
-    'FOODMAN (рівень': 'quality/easyweigh_xray.jpg',
     'YCW-150':     'quality/easyweigh_checkweigher.jpg',
     'YCW-300':     'quality/easyweigh_checkweigher.jpg',
     'T-LINE (базова': 'quality/tline_filling.jpg',

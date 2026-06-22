@@ -17,29 +17,14 @@
   </div>
 </section>
 
-<!-- HACCP Intro -->
-<section class="section-pad" aria-label="HACCP">
-  <div class="container">
-    <div class="text-two-col reveal">
-      <div>
-        <h2 class="subsection-title display">{{ qc.haccp_intro_title }}</h2>
-      </div>
-      <div>
-        <p class="body-lg">{{ qc.haccp_body_1 }}</p>
-        <p class="body-md">{{ qc.haccp_body_2 }}</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Системи для розливу -->
+<!-- Системи контролю розливу -->
 {% with section=category_sections.filling %}
 <section class="section-pad bg-light" aria-labelledby="filling-title">
   <div class="container">
     <div class="section-header reveal">
-      <p class="label">Системи для розливу</p>
+      <p class="label">Системи контролю розливу</p>
       <h2 class="subsection-title display" id="filling-title">
-        {% if section %}{{ section.section_title }}{% else %}Контроль для виробництв розливу{% endif %}
+        {% if section %}{{ section.section_title }}{% else %}Системи контролю розливу{% endif %}
       </h2>
     </div>
     <div class="qc-intro-grid reveal" data-reveal-delay=".1s">
@@ -54,6 +39,23 @@
             {% endif %}
           {% endwith %}
         {% endif %}
+
+        <div class="qc-filling-extra">
+          <article class="qc-filling-extra__block">
+            <h3 class="qc-filling-extra__title display">Рентген інспектор рівня наливу</h3>
+            <p class="body-md">Інспектор дозволяє визначити коректність рівня наповнення та закупорювання в скляних-, ПЕТ пляшках та алюмінієвих та жерстяних банках. Система дозволяє безконтактно визначити недолив та/або перелив, у тому числі і піниться продукту. Як опція для даної системи пропонуються:</p>
+            <ul class="feature-list" role="list">
+              <li>функція контролю наявності кришки</li>
+              <li>функція контролю наявності етикетки</li>
+              <li>функція FMS</li>
+            </ul>
+          </article>
+
+          <article class="qc-filling-extra__block">
+            <h3 class="qc-filling-extra__title display">Інспектор групової упаковки</h3>
+            <p class="body-md">Система використовує зв'язок з рентгенівським випромінювачем і детектором, який на основі безконтактної технології виявлення забезпечує перевірку групової упаковки з продуктами розливу і дозволяє відбракувати групові упаковки, що не пройшли кваліфікацію.</p>
+          </article>
+        </div>
       </div>
       {% if filling_systems %}
         <div class="qc-products-mini">
@@ -148,18 +150,9 @@
       </div>
     {% endif %}
 
-    {% if xray_products %}
-      {% with n=xray_products|length %}
-      <div class="products-grid grid-tablet-cols-{{ n|ideal_cols:2 }} grid-desktop-cols-{{ n|ideal_cols:3 }} reveal" data-reveal-delay=".1s">
-        {% for prod in xray_products %}
-          {% include "partials/product_card.html" with product=prod %}
-        {% endfor %}
-      </div>
-      {% endwith %}
-    {% else %}
-      <div class="products-grid grid-tablet-cols-2 grid-desktop-cols-2 reveal" data-reveal-delay=".1s">
-        {% include "partials/product_placeholder.html" with title="FOODMAN X-ray Inspector" %}
-        {% include "partials/product_placeholder.html" with title="FOODMAN X-ray — горизонтальний" %}
+    {% if xray_gallery %}
+      <div class="reveal" data-reveal-delay=".1s">
+        {% include "partials/product_gallery.html" with images=xray_gallery gallery_label="Рентгенівські інспектори FOODMAN" gallery_alt="Рентгенівський інспектор FOODMAN" %}
       </div>
     {% endif %}
 

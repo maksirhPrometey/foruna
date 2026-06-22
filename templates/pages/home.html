@@ -48,15 +48,12 @@
         </div>
         <div class="direction-card__body">
           <h3 class="direction-card__title display">Маркування</h3>
-          <p class="direction-card__text body-sm">Лазерні маркіратори для промислового нанесення штрих-кодів, QR-кодів, серійних номерів та логотипів на будь-яких матеріалах.</p>
+          <p class="direction-card__text body-sm">Каплеструйні, термотрансферні та лазерні маркувальники для нанесення дат, номерів партій, штрихкодів, QR-кодів та іншої інформації на продукцію й упаковку. Ремонт, сервіс, та поставка витратних матеріалів – чорнил та розчинників.</p>
           <ul class="direction-card__types" role="list">
-            {% for laser in lasers %}
-              <li>{{ laser.get_laser_type_display }}</li>
-            {% empty %}
-              <li>УФ лазер</li>
-              <li>CO₂ лазер</li>
-              <li>Файбер лазер</li>
-            {% endfor %}
+            <li>каплеструйні</li>
+            <li>термотрансферні</li>
+            <li>лазерні</li>
+            <li>запчастини та витратні матеріали</li>
           </ul>
           <span class="direction-card__cta">Детальніше →</span>
         </div>
@@ -108,7 +105,7 @@
 </section>
 
 <!-- Про компанію -->
-<section class="about section-pad bg-dark" aria-labelledby="about-title">
+<section class="about section-pad bg-dark" id="about" aria-labelledby="about-title">
   <div class="container">
     <div class="about__grid">
       <div class="about__text reveal">
@@ -116,6 +113,8 @@
         <h2 class="section-title display" id="about-title">{{ home.about_title }}</h2>
         <p class="body-lg">{{ home.about_body_1 }}</p>
         <p class="body-md">{{ home.about_body_2 }}</p>
+        {% if home.about_body_3 %}<p class="body-md">{{ home.about_body_3 }}</p>{% endif %}
+        {% if home.about_body_4 %}<p class="body-md">{{ home.about_body_4 }}</p>{% endif %}
         <a href="{% url 'core:contacts' %}" class="btn-accent-outline">Зв'язатись з нами</a>
       </div>
       <div class="about__stats reveal" data-reveal-delay=".1s" aria-label="Статистика компанії">

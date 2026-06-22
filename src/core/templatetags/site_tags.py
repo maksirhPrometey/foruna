@@ -1,6 +1,14 @@
 from django import template
+from django.contrib.staticfiles import finders
+from django.templatetags.static import static
 
 register = template.Library()
+
+LASER_BROCHURE_STATIC = {
+    'uv': 'brochures/lasers/uv-laser.pdf',
+    'co2': 'brochures/lasers/co2-laser.pdf',
+    'fiber': 'brochures/lasers/fiber-laser.pdf',
+}
 
 
 @register.simple_tag(takes_context=True)
@@ -29,3 +37,12 @@ def ideal_cols_filter(count, max_cols: int = 3) -> int:
         return _ideal_cols(int(count), int(max_cols))
     except (TypeError, ValueError):
         return int(max_cols)
+
+
+@register.simple_tag
+def laser_brochure_url(laser_type: str) -> str:
+    """URL PDF-брошури для типу лазера (uv / co2 / fiber)."""
+    path = LASER_BROCHURE_STATIC.get(laser_type)
+    if not path or not finders.find(path):
+        return ''
+    return static(path)

@@ -17,5 +17,6 @@ db.sqlite3
 deploy_setup.log
 pravky/
 *.pdf
+!static/brochures/**/*.pdf
 *.docx
 *.jpg

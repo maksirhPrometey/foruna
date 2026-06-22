@@ -2,11 +2,12 @@
 <header class="site-header" role="banner">
   <div class="header__inner">
     <a href="{% url 'core:home' %}" class="header__logo" aria-label="{{ site.company_name }} — головна">
-      <img src="{% static 'images/logo.svg' %}" alt="{{ site.company_name }}" width="160" height="44" loading="eager">
+      <img src="{% static 'images/logo.svg' %}" alt="{{ site.company_name }}" width="184" height="51" loading="eager">
     </a>
 
     <nav class="header__nav" aria-label="Основна навігація">
       <ul class="header__nav-list" role="list">
+        <li><a href="{% url 'core:home' %}#about" class="header__nav-link {% active_nav 'home' %}">Про компанію</a></li>
         <li><a href="{% url 'core:marking' %}" class="header__nav-link {% active_nav 'marking' %}">Маркування</a></li>
         <li><a href="{% url 'core:quality_control' %}" class="header__nav-link {% active_nav 'quality_control' %}">Контроль якості</a></li>
         <li><a href="{% url 'core:labeling' %}" class="header__nav-link {% active_nav 'labeling' %}">Етикетування</a></li>

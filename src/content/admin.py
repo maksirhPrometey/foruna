@@ -107,7 +107,7 @@ class HomePageAdmin(_SingletonAdminMixin, ModelAdmin):
     fieldsets = [
         ('Hero', {'fields': ['hero_title', 'hero_subtitle']}),
         ('Напрями', {'fields': ['directions_section_title']}),
-        ('Про компанію', {'fields': ['about_title', 'about_body_1', 'about_body_2']}),
+        ('Про компанію', {'fields': ['about_title', 'about_body_1', 'about_body_2', 'about_body_3', 'about_body_4']}),
         ('Статистика', {'fields': ['stats']}),
         ('CTA', {'fields': ['cta_title', 'cta_body']}),
         ('SEO', {'fields': ['page_title', 'meta_description']}),
@@ -119,7 +119,6 @@ class HomePageAdmin(_SingletonAdminMixin, ModelAdmin):
 class MarkingPageAdmin(_SingletonAdminMixin, ModelAdmin):
     fieldsets = [
         ('Hero', {'fields': ['hero_direction_label', 'hero_title', 'hero_subtitle']}),
-        ('Intro', {'fields': ['intro_title', 'intro_body_1', 'intro_body_2']}),
         ('CTA', {'fields': ['cta_title', 'cta_body']}),
         ('SEO', {'fields': ['page_title', 'meta_description']}),
     ]
@@ -129,7 +128,6 @@ class MarkingPageAdmin(_SingletonAdminMixin, ModelAdmin):
 class QualityControlPageAdmin(_SingletonAdminMixin, ModelAdmin):
     fieldsets = [
         ('Hero', {'fields': ['hero_direction_label', 'hero_title', 'hero_subtitle']}),
-        ('HACCP Intro', {'fields': ['haccp_intro_title', 'haccp_body_1', 'haccp_body_2']}),
         ('CTA', {'fields': ['cta_title', 'cta_body']}),
         ('SEO', {'fields': ['page_title', 'meta_description']}),
     ]

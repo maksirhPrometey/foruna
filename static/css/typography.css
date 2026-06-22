@@ -20,9 +20,16 @@
 .page-hero__title {
   font-family: var(--ff-display);
   font-weight: 300;
-  font-size: clamp(2.75rem, 7vw, 7rem);
   line-height: 0.95;
   letter-spacing: -0.02em;
+}
+
+.hero__title {
+  font-size: clamp(2.25rem, 5.5vw, 5.25rem);
+}
+
+.page-hero__title {
+  font-size: clamp(2.75rem, 7vw, 7rem);
 }
 
 .section-title {

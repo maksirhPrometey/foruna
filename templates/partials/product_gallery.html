@@ -1,0 +1,7 @@
+<div class="product-gallery" role="list" aria-label="{{ gallery_label|default:'Галерея обладнання' }}">
+  {% for image_path in images %}
+    <figure class="product-gallery__item img-frame" role="listitem">
+      <img src="{{ MEDIA_URL }}{{ image_path }}" alt="{{ gallery_alt|default:'FOODMAN' }}" loading="lazy">
+    </figure>
+  {% endfor %}
+</div>

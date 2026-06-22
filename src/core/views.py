@@ -19,6 +19,12 @@ from src.content.models import (
 from src.leads.forms import LeadForm
 
 
+XRAY_FOODMAN_GALLERY = (
+    'quality/easyweigh_xray.jpg',
+    'brands/easyweigh_product.jpg',
+)
+
+
 class HomeView(TemplateView):
     template_name = 'pages/home.html'
 
@@ -66,7 +72,7 @@ class QualityControlView(TemplateView):
         ctx['page_title'] = page.page_title
         ctx['meta_description'] = page.meta_description
         ctx['metal_detectors'] = QualityProduct.objects.filter(category='metal_detector', is_active=True)
-        ctx['xray_products'] = QualityProduct.objects.filter(category='xray', is_active=True)
+        ctx['xray_gallery'] = XRAY_FOODMAN_GALLERY
         ctx['checkweighers'] = QualityProduct.objects.filter(category='checkweigher', is_active=True)
         ctx['filling_systems'] = QualityProduct.objects.filter(category='filling', is_active=True)
         ctx['category_sections'] = {

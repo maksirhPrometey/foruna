@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static site_tags %}
 
 {% block title %}{{ page_title }}{% endblock %}
 {% block meta_description %}{{ meta_description }}{% endblock %}
@@ -13,21 +13,6 @@
       <p class="label label-gold">{{ marking.hero_direction_label }}</p>
       <h1 class="page-hero__title display" id="page-hero-title">{{ marking.hero_title }}</h1>
       <p class="page-hero__subtitle body-lg">{{ marking.hero_subtitle }}</p>
-    </div>
-  </div>
-</section>
-
-<!-- Intro -->
-<section class="section-pad" aria-label="Про маркування">
-  <div class="container">
-    <div class="text-two-col reveal">
-      <div>
-        <h2 class="subsection-title display">{{ marking.intro_title }}</h2>
-      </div>
-      <div>
-        <p class="body-lg">{{ marking.intro_body_1 }}</p>
-        <p class="body-md">{{ marking.intro_body_2 }}</p>
-      </div>
     </div>
   </div>
 </section>
@@ -228,6 +213,9 @@
                 </div>
               {% endif %}
             {% endwith %}
+
+            {% laser_brochure_url laser.laser_type as brochure_url %}
+            {% include "partials/laser_brochure.html" with brochure_url=brochure_url %}
           </div>
         </div>
       </div>

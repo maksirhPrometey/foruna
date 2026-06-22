@@ -1,4 +1,4 @@
-{% load static %}
+{% load static site_tags %}
 <!-- UV Laser placeholder -->
 <section class="laser-section section-pad" id="uv-laser" aria-labelledby="laser-uv-title">
   <div class="container">
@@ -31,6 +31,8 @@
             <li>Нанесення QR-кодів та штрих-кодів</li>
           </ul>
         </div>
+        {% laser_brochure_url 'uv' as brochure_url %}
+        {% include "partials/laser_brochure.html" with brochure_url=brochure_url %}
       </div>
     </div>
   </div>
@@ -68,6 +70,8 @@
             <li>Маркування дат та серійних номерів</li>
           </ul>
         </div>
+        {% laser_brochure_url 'co2' as brochure_url %}
+        {% include "partials/laser_brochure.html" with brochure_url=brochure_url %}
       </div>
     </div>
   </div>
@@ -105,6 +109,8 @@
             <li>Ювелірні вироби та сувеніри</li>
           </ul>
         </div>
+        {% laser_brochure_url 'fiber' as brochure_url %}
+        {% include "partials/laser_brochure.html" with brochure_url=brochure_url %}
       </div>
     </div>
   </div>
