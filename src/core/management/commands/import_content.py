@@ -42,4 +42,6 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(
             '\n✓ Імпорт завершено. На продакшені також:\n'
             '  python manage.py collectstatic --noinput --clear\n'
-            '  touch passenger_wsgi.py   # перезапуск ADM.TOOLS Passenger'))
+            '  python manage.py sync_www_static\n'
+            '  touch passenger_wsgi.py\n'
+            '  curl -s https://fortprint.com.ua/healthz/deploy/ | head -30'))

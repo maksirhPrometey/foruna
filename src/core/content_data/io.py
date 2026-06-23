@@ -88,3 +88,22 @@ def copy_static_asset(content_root: Path, static_relative: str, static_dir: Path
     dst.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(src, dst)
     return True
+
+
+def sync_staticfiles_to_www(base_dir: Path, static_root: Path) -> tuple[bool, str]:
+    """ADM.TOOLS: nginx часто віддає /static/ з www/staticfiles/, не з кореня проєкту."""
+    www_dir = base_dir / 'www'
+    if not www_dir.is_dir():
+        return False, 'www/ відсутня'
+    www_static = www_dir / 'staticfiles'
+    www_static.mkdir(parents=True, exist_ok=True)
+    copied = 0
+    for item in static_root.rglob('*'):
+        if not item.is_file():
+            continue
+        rel = item.relative_to(static_root)
+        dst = www_static / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(item, dst)
+        copied += 1
+    return True, f'www/staticfiles/ ← {copied} файлів'
