@@ -16,13 +16,8 @@ from src.content.models import (
     CIJProduct,
     TTOProduct,
 )
+from src.content.models_extra import GalleryImage
 from src.leads.forms import LeadForm
-
-
-XRAY_FOODMAN_GALLERY = (
-    'quality/easyweigh_xray.jpg',
-    'brands/easyweigh_product.jpg',
-)
 
 
 class HomeView(TemplateView):
@@ -72,7 +67,10 @@ class QualityControlView(TemplateView):
         ctx['page_title'] = page.page_title
         ctx['meta_description'] = page.meta_description
         ctx['metal_detectors'] = QualityProduct.objects.filter(category='metal_detector', is_active=True)
-        ctx['xray_gallery'] = XRAY_FOODMAN_GALLERY
+        ctx['xray_gallery'] = [
+            {'path': img.image.name, 'alt': img.alt_text or 'Рентгенівський інспектор FOODMAN'}
+            for img in GalleryImage.objects.filter(gallery='xray_foodman').order_by('ordering')
+        ]
         ctx['checkweighers'] = QualityProduct.objects.filter(category='checkweigher', is_active=True)
         ctx['filling_systems'] = QualityProduct.objects.filter(category='filling', is_active=True)
         ctx['category_sections'] = {

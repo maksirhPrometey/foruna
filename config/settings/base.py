@@ -1,6 +1,8 @@
 from pathlib import Path
 from decouple import config
-from django.urls import reverse_lazy
+from django.templatetags.static import static
+
+from src.content.admin_sidebar import ADMIN_SIDEBAR
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -137,64 +139,10 @@ UNFOLD = {
     'SITE_TITLE': 'FortunaPrint',
     'SITE_HEADER': 'FortunaPrint — Адмінпанель',
     'SITE_SYMBOL': 'settings',
-    'SIDEBAR': {
-        'show_search': True,
-        'command_search': True,
-        'show_all_applications': False,
-        'navigation': [
-            {
-                'title': 'Сторінки сайту',
-                'separator': False,
-                'items': [
-                    {'title': 'Головна', 'icon': 'home', 'link': reverse_lazy('admin:content_homepage_changelist')},
-                    {'title': 'Маркування', 'icon': 'edit', 'link': reverse_lazy('admin:content_markingpage_changelist')},
-                    {'title': 'Контроль якості', 'icon': 'verified', 'link': reverse_lazy('admin:content_qualitycontrolpage_changelist')},
-                    {'title': 'Етикетування', 'icon': 'label', 'link': reverse_lazy('admin:content_labelingpage_changelist')},
-                    {'title': 'Контакти', 'icon': 'contact_phone', 'link': reverse_lazy('admin:content_contactspage_changelist')},
-                ],
-            },
-            {
-                'title': 'Каталог продукції',
-                'separator': False,
-                'items': [
-                    {'title': 'Лазерні маркіратори', 'icon': 'highlight', 'link': reverse_lazy('admin:content_laserproduct_changelist')},
-                    {'title': 'Обладнання КЯ', 'icon': 'health_and_safety', 'link': reverse_lazy('admin:content_qualityproduct_changelist')},
-                    {'title': 'Обладнання для етикетування', 'icon': 'sell', 'link': reverse_lazy('admin:content_labelingproduct_changelist')},
-                ],
-            },
-            {
-                'title': 'Контент-блоки',
-                'separator': False,
-                'items': [
-                    {'title': 'Статистика (головна)', 'icon': 'bar_chart', 'link': reverse_lazy('admin:content_statitem_changelist')},
-                    {'title': 'Секції КЯ', 'icon': 'format_list_bulleted', 'link': reverse_lazy('admin:content_qualitycategorycontent_changelist')},
-                    {'title': 'Секції Етикетування', 'icon': 'label_important', 'link': reverse_lazy('admin:content_labelingcategorycontent_changelist')},
-                ],
-            },
-            {
-                'title': 'Налаштування',
-                'separator': True,
-                'items': [
-                    {'title': 'Налаштування сайту', 'icon': 'tune', 'link': reverse_lazy('admin:content_siteconfig_changelist')},
-                ],
-            },
-            {
-                'title': 'CRM',
-                'separator': False,
-                'items': [
-                    {'title': 'Заявки', 'icon': 'inbox', 'link': reverse_lazy('admin:leads_lead_changelist')},
-                ],
-            },
-            {
-                'title': 'Бренди',
-                'separator': False,
-                'items': [
-                    {'title': 'Сторінка «Бренди»', 'icon': 'verified_user', 'link': reverse_lazy('admin:content_brandspage_changelist')},
-                    {'title': 'Бренди та партнери', 'icon': 'business', 'link': reverse_lazy('admin:content_brand_changelist')},
-                ],
-            },
-        ],
-    },
+    'SIDEBAR': ADMIN_SIDEBAR,
+    'STYLES': [
+        lambda request: static('css/admin-extra.css'),
+    ],
     'COLORS': {
         'primary': {
             '50': '250 245 235',

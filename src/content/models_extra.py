@@ -81,3 +81,24 @@ class TTOProduct(models.Model):
 
     def get_variants_list(self) -> list[str]:
         return [v.strip() for v in self.variants.split(',') if v.strip()]
+
+
+class GalleryImage(models.Model):
+    """Зображення для галереї на сторінці (наприклад, FOODMAN на КЯ)."""
+
+    class GalleryKey(models.TextChoices):
+        XRAY_FOODMAN = 'xray_foodman', 'КЯ — галерея FOODMAN (рентген)'
+
+    gallery = models.CharField('Галерея', max_length=30, choices=GalleryKey.choices)
+    image = models.ImageField('Зображення', upload_to='gallery/')
+    alt_text = models.CharField('Alt-текст', max_length=160, blank=True)
+    ordering = models.PositiveSmallIntegerField('Порядок', default=0)
+
+    class Meta:
+        ordering = ['gallery', 'ordering']
+        verbose_name = 'Зображення галереї'
+        verbose_name_plural = 'Галереї — зображення'
+
+    def __str__(self) -> str:
+        label = self.get_gallery_display()
+        return f'{label} — #{self.ordering}'

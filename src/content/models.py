@@ -291,6 +291,37 @@ class QualityControlPage(_PageSingleton):
                                  default='Підберемо систему контролю якості під ваш HACCP-план')
     cta_body = models.TextField('CTA — текст', blank=True,
                                 default='Опишіть вашу виробничу лінію — ми запропонуємо відповідне рішення.')
+    # Додаткові блоки розділу «Контроль розливу»
+    filling_extra_1_title = models.CharField(
+        'Розлив — блок 1 заголовок', max_length=200, blank=True,
+        default='Рентген інспектор рівня наливу',
+    )
+    filling_extra_1_body = models.TextField(
+        'Розлив — блок 1 текст', blank=True,
+        default=(
+            'Інспектор дозволяє визначити коректність рівня наповнення та закупорювання '
+            'в скляних-, ПЕТ пляшках та алюмінієвих та жерстяних банках. Система дозволяє '
+            'безконтактно визначити недолив та/або перелив, у тому числі і піниться продукту. '
+            'Як опція для даної системи пропонуються:'
+        ),
+    )
+    filling_extra_1_features = models.TextField(
+        'Розлив — блок 1 пункти (кожен з нового рядка)', blank=True,
+        default='функція контролю наявності кришки\nфункція контролю наявності етикетки\nфункція FMS',
+    )
+    filling_extra_2_title = models.CharField(
+        'Розлив — блок 2 заголовок', max_length=200, blank=True,
+        default='Інспектор групової упаковки',
+    )
+    filling_extra_2_body = models.TextField(
+        'Розлив — блок 2 текст', blank=True,
+        default=(
+            'Система використовує зв\'язок з рентгенівським випромінювачем і детектором, '
+            'який на основі безконтактної технології виявлення забезпечує перевірку групової '
+            'упаковки з продуктами розливу і дозволяє відбракувати групові упаковки, '
+            'що не пройшли кваліфікацію.'
+        ),
+    )
     # SEO
     page_title = models.CharField('SEO — title', max_length=160, blank=True,
                                   default='Системи контролю якості | ФортунаПринт')
@@ -302,6 +333,9 @@ class QualityControlPage(_PageSingleton):
 
     def __str__(self) -> str:
         return 'Контроль якості'
+
+    def get_filling_extra_1_features_list(self) -> list[str]:
+        return [line.strip() for line in self.filling_extra_1_features.splitlines() if line.strip()]
 
 
 class LabelingPage(_PageSingleton):
@@ -362,6 +396,10 @@ class LaserProduct(models.Model):
     subtitle = models.CharField('Підзаголовок', max_length=255, blank=True)
     description = models.TextField('Опис')
     image = models.ImageField('Зображення', upload_to='lasers/', blank=True, null=True)
+    brochure = models.FileField(
+        'PDF-брошура', upload_to='brochures/lasers/', blank=True, null=True,
+        help_text='Якщо порожньо — використовується файл з /static/brochures/lasers/',
+    )
     applications = models.TextField('Сфери застосування (кожна з нового рядка)', blank=True)
     power_range = models.CharField('Діапазон потужності', max_length=80, blank=True)
     wavelength = models.CharField('Довжина хвилі', max_length=80, blank=True)
@@ -445,7 +483,7 @@ class Brand(models.Model):
         return [line.strip() for line in self.portfolio.splitlines() if line.strip()]
 
 
-from src.content.models_extra import CIJProduct, TTOProduct  # noqa: E402
+from src.content.models_extra import CIJProduct, TTOProduct, GalleryImage  # noqa: E402
 
 
 class BrandsPage(_PageSingleton):

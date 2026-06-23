@@ -128,6 +128,12 @@ def collect_export_payload() -> dict[str, Any]:
         'cij_products.json': list(sm.CIJ_DATA),
         'tto_products.json': list(sm.TTO_DATA),
         'brochures.json': brochures,
+        'galleries.json': {
+            'xray_foodman': [
+                'quality/easyweigh_xray.jpg',
+                'brands/easyweigh_product.jpg',
+            ],
+        },
         'media_bindings.json': {
             'lasers': simages.LASER_IMAGES,
             'quality_by_title_contains': simages.QUALITY_IMAGES,
@@ -163,6 +169,7 @@ def manifest_template() -> dict[str, Any]:
             'cij_products.json',
             'tto_products.json',
             'brochures.json',
+            'galleries.json',
         ],
         'assets': {
             'media': 'assets/media',

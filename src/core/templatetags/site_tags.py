@@ -49,8 +49,13 @@ def content_image_url(name: str) -> str:
 
 
 @register.simple_tag
-def laser_brochure_url(laser_type: str) -> str:
-    """URL PDF-брошури для типу лазера (uv / co2 / fiber)."""
+def laser_brochure_url(laser) -> str:
+    """URL PDF-брошури для лазерного продукту (upload або static fallback)."""
+    laser_type = laser if isinstance(laser, str) else getattr(laser, 'laser_type', '')
+    if not isinstance(laser, str):
+        brochure = getattr(laser, 'brochure', None)
+        if brochure:
+            return brochure.url
     path = LASER_BROCHURE_STATIC.get(laser_type)
     if not path or not finders.find(path):
         return ''

@@ -1,8 +1,12 @@
 {% load site_tags %}
 <div class="product-gallery" role="list" aria-label="{{ gallery_label|default:'Галерея обладнання' }}">
-  {% for image_path in images %}
+  {% for image in images %}
     <figure class="product-gallery__item img-frame" role="listitem">
-      <img src="{% content_image_url image_path %}" alt="{{ gallery_alt|default:'FOODMAN' }}" loading="lazy">
+      {% if image.path %}
+        <img src="{% content_image_url image.path %}" alt="{{ image.alt|default:gallery_alt|default:'FOODMAN' }}" loading="lazy">
+      {% else %}
+        <img src="{% content_image_url image %}" alt="{{ gallery_alt|default:'FOODMAN' }}" loading="lazy">
+      {% endif %}
     </figure>
   {% endfor %}
 </div>

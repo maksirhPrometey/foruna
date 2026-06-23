@@ -17,6 +17,21 @@
   </div>
 </section>
 
+<!-- HACCP intro -->
+{% if qc.haccp_intro_title %}
+<section class="section-pad bg-light" aria-labelledby="haccp-title">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2 class="subsection-title display" id="haccp-title">{{ qc.haccp_intro_title }}</h2>
+    </div>
+    <div class="text-two-col reveal" data-reveal-delay=".05s">
+      {% if qc.haccp_body_1 %}<p class="body-lg">{{ qc.haccp_body_1 }}</p>{% endif %}
+      {% if qc.haccp_body_2 %}<p class="body-md">{{ qc.haccp_body_2 }}</p>{% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
 <!-- Системи контролю розливу -->
 {% with section=category_sections.filling %}
 <section class="section-pad bg-light" aria-labelledby="filling-title">
@@ -41,20 +56,26 @@
         {% endif %}
 
         <div class="qc-filling-extra">
+          {% if qc.filling_extra_1_title %}
           <article class="qc-filling-extra__block">
-            <h3 class="qc-filling-extra__title display">Рентген інспектор рівня наливу</h3>
-            <p class="body-md">Інспектор дозволяє визначити коректність рівня наповнення та закупорювання в скляних-, ПЕТ пляшках та алюмінієвих та жерстяних банках. Система дозволяє безконтактно визначити недолив та/або перелив, у тому числі і піниться продукту. Як опція для даної системи пропонуються:</p>
-            <ul class="feature-list" role="list">
-              <li>функція контролю наявності кришки</li>
-              <li>функція контролю наявності етикетки</li>
-              <li>функція FMS</li>
-            </ul>
+            <h3 class="qc-filling-extra__title display">{{ qc.filling_extra_1_title }}</h3>
+            {% if qc.filling_extra_1_body %}<p class="body-md">{{ qc.filling_extra_1_body }}</p>{% endif %}
+            {% with features=qc.get_filling_extra_1_features_list %}
+              {% if features %}
+                <ul class="feature-list" role="list">
+                  {% for item in features %}<li>{{ item }}</li>{% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
           </article>
+          {% endif %}
 
+          {% if qc.filling_extra_2_title %}
           <article class="qc-filling-extra__block">
-            <h3 class="qc-filling-extra__title display">Інспектор групової упаковки</h3>
-            <p class="body-md">Система використовує зв'язок з рентгенівським випромінювачем і детектором, який на основі безконтактної технології виявлення забезпечує перевірку групової упаковки з продуктами розливу і дозволяє відбракувати групові упаковки, що не пройшли кваліфікацію.</p>
+            <h3 class="qc-filling-extra__title display">{{ qc.filling_extra_2_title }}</h3>
+            {% if qc.filling_extra_2_body %}<p class="body-md">{{ qc.filling_extra_2_body }}</p>{% endif %}
           </article>
+          {% endif %}
         </div>
       </div>
       {% if filling_systems %}

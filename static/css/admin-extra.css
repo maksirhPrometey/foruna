@@ -1,0 +1,19 @@
+/* Превʼю зображень у Django Unfold admin */
+.admin-img-preview {
+  display: block;
+  max-height: 52px;
+  max-width: 80px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.admin-img-preview--detail {
+  max-height: 200px;
+  max-width: 320px;
+}
+
+@media (max-width: 767px) {
+  .admin-img-preview--detail {
+    max-width: 100%;
+  }
+}

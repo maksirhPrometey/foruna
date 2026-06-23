@@ -18,7 +18,8 @@
     "brands.json",
     "cij_products.json",
     "tto_products.json",
-    "brochures.json"
+    "brochures.json",
+    "galleries.json"
   ],
   "assets": {
     "media": "assets/media",

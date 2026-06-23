@@ -137,6 +137,21 @@
   {% endfor %}
 {% endif %}
 
+<!-- Intro: чому лазерне маркування -->
+{% if marking.intro_title %}
+<section class="section-pad" aria-labelledby="marking-intro-title">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2 class="subsection-title display" id="marking-intro-title">{{ marking.intro_title }}</h2>
+    </div>
+    <div class="text-two-col reveal" data-reveal-delay=".05s">
+      {% if marking.intro_body_1 %}<p class="body-lg">{{ marking.intro_body_1 }}</p>{% endif %}
+      {% if marking.intro_body_2 %}<p class="body-md">{{ marking.intro_body_2 }}</p>{% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
 <!-- Laser types -->
 {% if lasers %}
 <section class="marking-category section-pad bg-light" aria-labelledby="laser-section-title">
@@ -214,7 +229,7 @@
               {% endif %}
             {% endwith %}
 
-            {% laser_brochure_url laser.laser_type as brochure_url %}
+            {% laser_brochure_url laser as brochure_url %}
             {% include "partials/laser_brochure.html" with brochure_url=brochure_url %}
           </div>
         </div>

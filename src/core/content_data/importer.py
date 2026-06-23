@@ -253,6 +253,18 @@ class ContentImporter:
             else:
                 self._log(f'  ⚠ PDF не знайдено: {static_path}')
 
+    def _import_galleries(self) -> None:
+        from src.content.models_extra import GalleryImage
+
+        data = self._load('galleries.json')
+        for gallery_key, paths in data.items():
+            for ordering, relative in enumerate(paths):
+                lookup = {'gallery': gallery_key, 'ordering': ordering}
+                defaults = {'alt_text': ''}
+                obj, _ = self._upsert(GalleryImage, lookup, defaults)
+                self._apply_image(obj, 'image', relative)
+                self._log(f'  [{gallery_key}] #{ordering} — {relative}')
+
     def _apply_post_import(self) -> None:
         post = self.manifest.get('post_import', {})
         from src.content.models import (
