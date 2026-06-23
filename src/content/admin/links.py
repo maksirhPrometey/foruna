@@ -35,8 +35,7 @@ def admin_content_hub(
             status = ' <span class="admin-hub__muted">(неактивний)</span>'
         rows.append(format_html(
             '<li class="admin-hub__item">'
-            '<a href="{}" class="admin-hub__edit">Редагувати</a> '
-            '<span class="admin-hub__title">{}{}</span>'
+            '<a href="{}" class="admin-hub__edit admin-hub__edit--title">{}{}</a>'
             '</li>',
             change_url,
             obj,

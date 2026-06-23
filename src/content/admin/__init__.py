@@ -3,7 +3,6 @@
 from django.contrib import admin
 
 from . import catalogs  # noqa: F401
-from . import sections  # noqa: F401
 from .pages import (
     BrandsPageAdmin,
     ContactsPageAdmin,

@@ -6,6 +6,7 @@
 
 {% block content %}
 
+<!-- Page hero -->
 <section class="page-hero bg-dark" aria-labelledby="labeling-hero-title">
   <div class="container">
     <div class="page-hero__inner reveal">
@@ -16,15 +17,234 @@
   </div>
 </section>
 
-{% for section in page_sections %}
-  {% include "partials/content_section.html" with section=section bg_light=forloop.counter0|divisibleby:2 %}
-{% endfor %}
+<!-- ======================================================
+     СЕКЦІЯ 1 — Аплікатори ALstep
+     ====================================================== -->
+{% with section=category_sections.alstep %}
+<section class="section-pad" aria-labelledby="alstep-title">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">{% if section %}{{ section.section_number }}{% else %}01{% endif %}</p>
+      <h2 class="subsection-title display" id="alstep-title">
+        {% if section %}{{ section.section_title }}{% else %}Аплікатори ALstep{% endif %}
+      </h2>
+    </div>
 
+    {% if section %}
+      <div class="qc-description reveal" data-reveal-delay=".05s">
+        <div class="text-two-col">
+          <div><p class="body-lg">{{ section.body_primary }}</p></div>
+          <div><p class="body-md">{{ section.body_secondary }}</p></div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if alstep_products %}
+      {% with n=alstep_products|length %}
+      <div class="products-grid grid-tablet-cols-{{ n|ideal_cols:2 }} grid-desktop-cols-{{ n|ideal_cols:3 }} reveal" data-reveal-delay=".1s">
+        {% for prod in alstep_products %}
+          {% include "partials/product_card.html" with product=prod %}
+        {% endfor %}
+      </div>
+      {% endwith %}
+    {% else %}
+      <div class="products-grid grid-tablet-cols-2 grid-desktop-cols-2 reveal" data-reveal-delay=".1s">
+        {% include "partials/product_placeholder.html" with title="ALstep S — до 100 мм" %}
+        {% include "partials/product_placeholder.html" with title="ALstep M — до 200 мм" %}
+        {% include "partials/product_placeholder.html" with title="ALstep E — до 100 мм (спрощена)" %}
+        {% include "partials/product_placeholder.html" with title="ALstep T — принтер-аплікатор" %}
+      </div>
+    {% endif %}
+
+    {% if section %}
+      {% with features=section.get_features_list %}
+        {% if features %}
+          <div class="features-block reveal" data-reveal-delay=".15s">
+            <p class="label">{{ section.features_label }}</p>
+            <ul class="feature-list feature-list--grid" role="list">
+              {% for item in features %}<li>{{ item }}</li>{% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endwith %}
+    {% endif %}
+  </div>
+</section>
+{% endwith %}
+
+<!-- ======================================================
+     СЕКЦІЯ 2 — Аплікатори ALritma
+     ====================================================== -->
+{% with section=category_sections.alritma %}
+<section class="section-pad bg-light" aria-labelledby="alritma-title">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">{% if section %}{{ section.section_number }}{% else %}02{% endif %}</p>
+      <h2 class="subsection-title display" id="alritma-title">
+        {% if section %}{{ section.section_title }}{% else %}Аплікатори ALritma{% endif %}
+      </h2>
+    </div>
+
+    {% if section %}
+      <div class="qc-description reveal" data-reveal-delay=".05s">
+        <div class="text-two-col">
+          <div><p class="body-lg">{{ section.body_primary }}</p></div>
+          <div><p class="body-md">{{ section.body_secondary }}</p></div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if alritma_products %}
+      {% with n=alritma_products|length %}
+      <div class="products-grid grid-tablet-cols-{{ n|ideal_cols:2 }} grid-desktop-cols-{{ n|ideal_cols:3 }} reveal" data-reveal-delay=".1s">
+        {% for prod in alritma_products %}
+          {% include "partials/product_card.html" with product=prod %}
+        {% endfor %}
+      </div>
+      {% endwith %}
+    {% else %}
+      <div class="products-grid grid-tablet-cols-2 grid-desktop-cols-3 reveal" data-reveal-delay=".1s">
+        {% include "partials/product_placeholder.html" with title="ALritma S — до 100 мм, 40 м/хв" %}
+        {% include "partials/product_placeholder.html" with title="ALritma M — до 200 мм, 40 м/хв" %}
+        {% include "partials/product_placeholder.html" with title="ALritma L — до 300 мм, 40 м/хв" %}
+        {% include "partials/product_placeholder.html" with title="ALritma X — висока швидкість, 90 м/хв" %}
+        {% include "partials/product_placeholder.html" with title="ALritma T — принтер-аплікатор, 60 м/хв" %}
+        {% include "partials/product_placeholder.html" with title="ALritma T High-Speed" %}
+      </div>
+    {% endif %}
+
+    {% if section %}
+      {% with features=section.get_features_list %}
+        {% if features %}
+          <div class="features-block reveal" data-reveal-delay=".15s">
+            <p class="label">{{ section.features_label }}</p>
+            <ul class="feature-list feature-list--grid" role="list">
+              {% for item in features %}<li>{{ item }}</li>{% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endwith %}
+    {% endif %}
+  </div>
+</section>
+{% endwith %}
+
+<!-- ======================================================
+     СЕКЦІЯ 3 — Машини Print&Apply ALcode
+     ====================================================== -->
+{% with section=category_sections.print_apply %}
+<section class="section-pad" aria-labelledby="alcode-title">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">{% if section %}{{ section.section_number }}{% else %}03{% endif %}</p>
+      <h2 class="subsection-title display" id="alcode-title">
+        {% if section %}{{ section.section_title }}{% else %}Машини Print&amp;Apply ALcode{% endif %}
+      </h2>
+    </div>
+
+    {% if section %}
+      <div class="qc-description reveal" data-reveal-delay=".05s">
+        <div class="text-two-col">
+          <div><p class="body-lg">{{ section.body_primary }}</p></div>
+          <div>
+            <p class="body-md">{{ section.body_secondary }}</p>
+            {% with features=section.get_features_list %}
+              {% if features %}
+                <ul class="feature-list" role="list">
+                  {% for item in features %}<li>{{ item }}</li>{% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if print_apply_products %}
+      {% with n=print_apply_products|length %}
+      <div class="products-grid grid-tablet-cols-{{ n|ideal_cols:2 }} grid-desktop-cols-{{ n|ideal_cols:3 }} reveal" data-reveal-delay=".1s">
+        {% for prod in print_apply_products %}
+          {% include "partials/product_card.html" with product=prod %}
+        {% endfor %}
+      </div>
+      {% endwith %}
+    {% else %}
+      <div class="products-grid grid-tablet-cols-2 grid-desktop-cols-3 reveal" data-reveal-delay=".1s">
+        {% include "partials/product_placeholder.html" with title="ALcode — до 100 мм" %}
+        {% include "partials/product_placeholder.html" with title="ALcode — до 127 мм" %}
+        {% include "partials/product_placeholder.html" with title="ALcode LT — полегшена версія" %}
+        {% include "partials/product_placeholder.html" with title="ALcode P — маркування палет" %}
+        {% include "partials/product_placeholder.html" with title="ALcode P360 — кругова маркировка" %}
+        {% include "partials/product_placeholder.html" with title="ALcode — до 152 мм" %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endwith %}
+
+<!-- ======================================================
+     СЕКЦІЯ 4 — Системи етикетування
+     ====================================================== -->
+{% with section=category_sections.labelling %}
+<section class="section-pad bg-light" aria-labelledby="labelling-title">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">{% if section %}{{ section.section_number }}{% else %}04{% endif %}</p>
+      <h2 class="subsection-title display" id="labelling-title">
+        {% if section %}{{ section.section_title }}{% else %}Системи етикетування{% endif %}
+      </h2>
+    </div>
+
+    {% if section %}
+      <div class="qc-description reveal" data-reveal-delay=".05s">
+        <div class="text-two-col">
+          <div><p class="body-lg">{{ section.body_primary }}</p></div>
+          <div><p class="body-md">{{ section.body_secondary }}</p></div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if labelling_products %}
+      {% with n=labelling_products|length %}
+      <div class="products-grid grid-tablet-cols-{{ n|ideal_cols:2 }} grid-desktop-cols-{{ n|ideal_cols:3 }} reveal" data-reveal-delay=".1s">
+        {% for prod in labelling_products %}
+          {% include "partials/product_card.html" with product=prod %}
+        {% endfor %}
+      </div>
+      {% endwith %}
+    {% else %}
+      <div class="products-grid grid-tablet-cols-2 grid-desktop-cols-3 reveal" data-reveal-delay=".1s">
+        {% include "partials/product_placeholder.html" with title="ALline C — кругове обклеювання" %}
+        {% include "partials/product_placeholder.html" with title="ALline E — перед та зад" %}
+        {% include "partials/product_placeholder.html" with title="ALline — спеціальні рішення" %}
+        {% include "partials/product_placeholder.html" with title="ALbelt — стрічковий аплікатор" %}
+        {% include "partials/product_placeholder.html" with title="ALbelt C — пляшки та банки" %}
+        {% include "partials/product_placeholder.html" with title="ALbelt — верх/низ/основа" %}
+      </div>
+    {% endif %}
+
+    {% if section %}
+      {% with features=section.get_features_list %}
+        {% if features %}
+          <div class="features-block reveal" data-reveal-delay=".15s">
+            <p class="label">{{ section.features_label }}</p>
+            <ul class="feature-list feature-list--grid" role="list">
+              {% for item in features %}<li>{{ item }}</li>{% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endwith %}
+    {% endif %}
+  </div>
+</section>
+{% endwith %}
+
+<!-- CTA -->
 <section class="cta-section section-pad bg-dark" aria-labelledby="labeling-cta-title">
   <div class="container">
     <div class="cta-grid">
       <div class="cta-text reveal">
-        <p class="label label-gold">Замовлення</p>
+        <p class="label label-gold">Запит</p>
         <h2 class="section-title display" id="labeling-cta-title">{{ labeling.cta_title }}</h2>
         <p class="body-lg">{{ labeling.cta_body }}</p>
       </div>

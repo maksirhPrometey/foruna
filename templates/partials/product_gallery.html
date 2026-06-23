@@ -4,8 +4,6 @@
     <figure class="product-gallery__item img-frame" role="listitem">
       {% if image.path %}
         <img src="{% content_image_url image.path %}" alt="{{ image.alt|default:gallery_alt|default:'FOODMAN' }}" loading="lazy">
-      {% elif image.image %}
-        <img src="{% content_image_url image.image.name %}" alt="{{ image.alt_text|default:gallery_alt|default:'FOODMAN' }}" loading="lazy">
       {% else %}
         <img src="{% content_image_url image %}" alt="{{ gallery_alt|default:'FOODMAN' }}" loading="lazy">
       {% endif %}

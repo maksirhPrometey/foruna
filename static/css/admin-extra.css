@@ -85,6 +85,18 @@
   text-decoration: underline;
 }
 
+.admin-hub__edit--title {
+  flex: 1;
+  font-weight: 600;
+  color: rgb(39 39 42);
+  text-decoration: none;
+}
+
+.admin-hub__edit--title:hover {
+  color: rgb(180 134 70);
+  text-decoration: underline;
+}
+
 .admin-hub__title {
   color: rgb(63 63 70);
 }

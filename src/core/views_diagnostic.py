@@ -71,7 +71,7 @@ def deploy_health(request: HttpRequest):
                 'marking_admin_class': f'{cls.__module__}.{cls.__name__}',
                 'marking_fieldsets': [row[0] for row in fieldsets],
                 'sidebar_first_section': ADMIN_SIDEBAR['navigation'][0]['title'],
-                'admin_links_ok': any('Картки' in title for title, _ in fieldsets),
+                'admin_links_ok': any('Картки —' in title for title, _ in fieldsets),
             }
     except Exception as exc:
         data['admin_runtime'] = {'error': str(exc)}

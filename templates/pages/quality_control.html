@@ -6,6 +6,7 @@
 
 {% block content %}
 
+<!-- Page hero -->
 <section class="page-hero bg-dark" aria-labelledby="qc-hero-title">
   <div class="container">
     <div class="page-hero__inner reveal">
@@ -16,6 +17,7 @@
   </div>
 </section>
 
+<!-- HACCP intro -->
 {% if qc.haccp_intro_title %}
 <section class="section-pad bg-light" aria-labelledby="haccp-title">
   <div class="container">
@@ -30,10 +32,215 @@
 </section>
 {% endif %}
 
-{% for section in page_sections %}
-  {% include "partials/content_section.html" with section=section qc=qc bg_light=forloop.counter0|divisibleby:2 %}
-{% endfor %}
+<!-- Системи контролю розливу -->
+{% with section=category_sections.filling %}
+<section class="section-pad bg-light" aria-labelledby="filling-title">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">Системи контролю розливу</p>
+      <h2 class="subsection-title display" id="filling-title">
+        {% if section %}{{ section.section_title }}{% else %}Системи контролю розливу{% endif %}
+      </h2>
+    </div>
+    <div class="qc-intro-grid reveal" data-reveal-delay=".1s">
+      <div class="qc-intro-text">
+        {% if section %}
+          <p class="body-md">{{ section.body_primary }}</p>
+          {% with features=section.get_features_list %}
+            {% if features %}
+              <ul class="feature-list feature-list--2col" role="list">
+                {% for item in features %}<li>{{ item }}</li>{% endfor %}
+              </ul>
+            {% endif %}
+          {% endwith %}
+        {% endif %}
 
+        <div class="qc-filling-extra">
+          {% if qc.filling_extra_1_title %}
+          <article class="qc-filling-extra__block">
+            <h3 class="qc-filling-extra__title display">{{ qc.filling_extra_1_title }}</h3>
+            {% if qc.filling_extra_1_body %}<p class="body-md">{{ qc.filling_extra_1_body }}</p>{% endif %}
+            {% with features=qc.get_filling_extra_1_features_list %}
+              {% if features %}
+                <ul class="feature-list" role="list">
+                  {% for item in features %}<li>{{ item }}</li>{% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+          </article>
+          {% endif %}
+
+          {% if qc.filling_extra_2_title %}
+          <article class="qc-filling-extra__block">
+            <h3 class="qc-filling-extra__title display">{{ qc.filling_extra_2_title }}</h3>
+            {% if qc.filling_extra_2_body %}<p class="body-md">{{ qc.filling_extra_2_body }}</p>{% endif %}
+          </article>
+          {% endif %}
+        </div>
+      </div>
+      {% if filling_systems %}
+        <div class="qc-products-mini">
+          {% for prod in filling_systems %}
+            <div class="qc-product-mini">
+              {% if prod.image %}
+                <div class="img-frame qc-mini-img">
+                  <img src="{% content_image_url prod.image.name %}" alt="{{ prod.title }}" loading="lazy">
+                </div>
+              {% endif %}
+              <h3 class="qc-product-mini__title">{{ prod.title }}</h3>
+              <p class="body-sm">{{ prod.subtitle }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endwith %}
+
+<!-- Металодетектори -->
+{% with section=category_sections.metal_detector %}
+<section class="section-pad" aria-labelledby="metal-title">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">{% if section %}{{ section.section_number }}{% else %}01{% endif %}</p>
+      <h2 class="subsection-title display" id="metal-title">
+        {% if section %}{{ section.section_title }}{% else %}Металодетектори{% endif %}
+      </h2>
+    </div>
+
+    {% if section %}
+      <div class="qc-description reveal" data-reveal-delay=".05s">
+        <div class="text-two-col">
+          <div><p class="body-lg">{{ section.body_primary }}</p></div>
+          <div><p class="body-md">{{ section.body_secondary }}</p></div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if metal_detectors %}
+      {% with n=metal_detectors|length %}
+      <div class="products-grid grid-tablet-cols-{{ n|ideal_cols:2 }} grid-desktop-cols-{{ n|ideal_cols:3 }} reveal" data-reveal-delay=".1s">
+        {% for prod in metal_detectors %}
+          {% include "partials/product_card.html" with product=prod %}
+        {% endfor %}
+      </div>
+      {% endwith %}
+    {% else %}
+      <div class="products-grid grid-tablet-cols-2 grid-desktop-cols-2 reveal" data-reveal-delay=".1s">
+        {% include "partials/product_placeholder.html" with title="FMD-3010/FMD-3015" %}
+        {% include "partials/product_placeholder.html" with title="FMD-5015/FMD-5020" %}
+        {% include "partials/product_placeholder.html" with title="Комбі-чекер FMD-YCW-210" %}
+        {% include "partials/product_placeholder.html" with title="Комбі-чекер FMD-YCW-300" %}
+      </div>
+    {% endif %}
+
+    {% if section %}
+      {% with features=section.get_features_list %}
+        {% if features %}
+          <div class="features-block reveal" data-reveal-delay=".15s">
+            <p class="label">{{ section.features_label }}</p>
+            <ul class="feature-list feature-list--grid" role="list">
+              {% for item in features %}<li>{{ item }}</li>{% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endwith %}
+    {% endif %}
+  </div>
+</section>
+{% endwith %}
+
+<!-- Рентгенівські інспектори -->
+{% with section=category_sections.xray %}
+<section class="section-pad bg-light" aria-labelledby="xray-title">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">{% if section %}{{ section.section_number }}{% else %}02{% endif %}</p>
+      <h2 class="subsection-title display" id="xray-title">
+        {% if section %}{{ section.section_title }}{% else %}Рентгенівські інспектори{% endif %}
+      </h2>
+    </div>
+
+    {% if section %}
+      <div class="qc-description reveal" data-reveal-delay=".05s">
+        <div class="text-two-col">
+          <div><p class="body-lg">{{ section.body_primary }}</p></div>
+          <div><p class="body-md">{{ section.body_secondary }}</p></div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if xray_gallery %}
+      <div class="reveal" data-reveal-delay=".1s">
+        {% include "partials/product_gallery.html" with images=xray_gallery gallery_label="Рентгенівські інспектори FOODMAN" gallery_alt="Рентгенівський інспектор FOODMAN" %}
+      </div>
+    {% endif %}
+
+    {% if section %}
+      {% with features=section.get_features_list %}
+        {% if features %}
+          <div class="features-block reveal" data-reveal-delay=".15s">
+            <p class="label">{{ section.features_label }}</p>
+            <ul class="feature-list feature-list--grid" role="list">
+              {% for item in features %}<li>{{ item }}</li>{% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endwith %}
+    {% endif %}
+  </div>
+</section>
+{% endwith %}
+
+<!-- Чеквейери -->
+{% with section=category_sections.checkweigher %}
+<section class="section-pad" aria-labelledby="checkweigher-title">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="label">{% if section %}{{ section.section_number }}{% else %}03{% endif %}</p>
+      <h2 class="subsection-title display" id="checkweigher-title">
+        {% if section %}{{ section.section_title }}{% else %}Чеквейери (системи динамічного зважування){% endif %}
+      </h2>
+    </div>
+
+    {% if section %}
+      <div class="qc-description reveal" data-reveal-delay=".05s">
+        <div class="text-two-col">
+          <div><p class="body-lg">{{ section.body_primary }}</p></div>
+          <div>
+            <p class="body-md">{{ section.body_secondary }}</p>
+            {% with features=section.get_features_list %}
+              {% if features %}
+                <ul class="feature-list" role="list">
+                  {% for item in features %}<li>{{ item }}</li>{% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if checkweighers %}
+      {% with n=checkweighers|length %}
+      <div class="products-grid grid-tablet-cols-{{ n|ideal_cols:2 }} grid-desktop-cols-{{ n|ideal_cols:3 }} reveal" data-reveal-delay=".1s">
+        {% for prod in checkweighers %}
+          {% include "partials/product_card.html" with product=prod %}
+        {% endfor %}
+      </div>
+      {% endwith %}
+    {% else %}
+      <div class="products-grid grid-tablet-cols-2 grid-desktop-cols-2 reveal" data-reveal-delay=".1s">
+        {% include "partials/product_placeholder.html" with title="Чеквейер YCW-300 / 500 / 600" %}
+        {% include "partials/product_placeholder.html" with title="Чеквейер YCW-150 / 210" %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endwith %}
+
+<!-- CTA -->
 <section class="cta-section section-pad bg-dark" aria-labelledby="qc-cta-title">
   <div class="container">
     <div class="cta-grid">
