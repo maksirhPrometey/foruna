@@ -41,5 +41,5 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS(
             '\n✓ Імпорт завершено. На продакшені також:\n'
-            '  python manage.py collectstatic --noinput\n'
+            '  python manage.py collectstatic --noinput --clear\n'
             '  touch passenger_wsgi.py   # перезапуск ADM.TOOLS Passenger'))

@@ -62,6 +62,10 @@ SECURE_HSTS_PRELOAD = True
 # Docker: nginx alias /media/ → SERVE_MEDIA=False (за замовчуванням для PostgreSQL).
 SERVE_MEDIA = config('SERVE_MEDIA', default=_db_engine == 'mysql', cast=bool)
 
+# ADM.TOOLS / MySQL: без manifest — прямі URL /static/content/...
+if _db_engine == 'mysql':
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
 # Docker: nginx serves /static/ — override WhiteNoise storage
 if _db_engine == 'postgresql':
     STORAGES = {

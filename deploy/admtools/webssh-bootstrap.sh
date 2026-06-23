@@ -84,7 +84,8 @@ VENV_PY="${APP_DIR}/.venv/bin/python"
 export DJANGO_SETTINGS_MODULE=config.settings.production
 "${VENV_PY}" manage.py migrate --noinput
 "${VENV_PY}" manage.py import_content --force
-"${VENV_PY}" manage.py collectstatic --noinput
+"${VENV_PY}" manage.py collectstatic --noinput --clear
+touch "${APP_DIR}/passenger_wsgi.py"
 
 if ! "${VENV_PY}" manage.py shell -c "from django.contrib.auth import get_user_model; exit(0 if get_user_model().objects.filter(is_superuser=True).exists() else 1)" 2>/dev/null; then
     echo ""
