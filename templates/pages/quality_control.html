@@ -63,7 +63,7 @@
             <div class="qc-product-mini">
               {% if prod.image %}
                 <div class="img-frame qc-mini-img">
-                  <img src="{{ prod.image.url }}" alt="{{ prod.title }}" loading="lazy">
+                  <img src="{% content_image_url prod.image.name %}" alt="{{ prod.title }}" loading="lazy">
                 </div>
               {% endif %}
               <h3 class="qc-product-mini__title">{{ prod.title }}</h3>

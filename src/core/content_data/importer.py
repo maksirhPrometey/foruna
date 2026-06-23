@@ -8,10 +8,13 @@ from django.conf import settings
 from django.db import transaction
 
 from src.core.content_data.io import (
+    ASSETS_DIR,
+    MEDIA_ASSETS,
     content_paths,
     copy_media_asset,
     copy_static_asset,
     read_json,
+    sync_image_to_static,
 )
 
 
@@ -48,7 +51,14 @@ class ContentImporter:
     def _apply_image(self, obj, field: str, relative: str) -> None:
         if not relative:
             return
-        if copy_media_asset(self.root, relative, self.media_root):
+        src = self.root / ASSETS_DIR / MEDIA_ASSETS / relative
+        copied = copy_media_asset(self.root, relative, self.media_root)
+        if copied:
+            _set_image_path(obj, field, relative)
+            sync_image_to_static(relative, self.static_dir, self.media_root / relative)
+            return
+        if src.is_file():
+            sync_image_to_static(relative, self.static_dir, src)
             _set_image_path(obj, field, relative)
             return
         if self.force or not getattr(obj, field):
@@ -66,6 +76,20 @@ class ContentImporter:
                 handler()
 
             self._apply_post_import()
+            self._sync_all_content_assets()
+
+    def _sync_all_content_assets(self) -> None:
+        """Копіює всі зображення з content/assets/media/ → static/content/."""
+        src_root = self.root / ASSETS_DIR / MEDIA_ASSETS
+        if not src_root.is_dir():
+            return
+        count = 0
+        for item in src_root.rglob('*'):
+            if item.is_file():
+                rel = str(item.relative_to(src_root))
+                if sync_image_to_static(rel, self.static_dir, item):
+                    count += 1
+        self._log(f'\n  static/content/ → {count} зображень для collectstatic')
 
     def _import_site_config(self) -> None:
         from src.content.models import SiteConfig

@@ -12,6 +12,17 @@ DATA_DIR = 'data'
 ASSETS_DIR = 'assets'
 MEDIA_ASSETS = 'media'
 STATIC_ASSETS = 'static'
+STATIC_CONTENT_PREFIX = 'content'
+
+
+def sync_image_to_static(relative: str, static_dir: Path, source: Path) -> bool:
+    """Копіює зображення в static/content/ для віддачі через collectstatic."""
+    if not relative or not source.is_file():
+        return False
+    dst = static_dir / STATIC_CONTENT_PREFIX / relative
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, dst)
+    return True
 
 
 def content_paths(root: Path) -> dict[str, Path]:

@@ -104,4 +104,5 @@ echo "   Команда (підстав IP:PORT з панелі замість 1
 echo "   cd ${APP_DIR} && .venv/bin/gunicorn config.wsgi:application --bind 127.0.0.1:3000 --workers 2 --timeout 120"
 echo ""
 echo "4. Зберегти → Запустить → перевірити Логи приложения"
-echo "5. Сайт: https://${DOMAIN}/"
+echo "5. Після import_content: touch ${APP_DIR}/passenger_wsgi.py"
+echo "6. Сайт: https://${DOMAIN}/"

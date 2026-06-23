@@ -40,6 +40,18 @@ def ideal_cols_filter(count, max_cols: int = 3) -> int:
 
 
 @register.simple_tag
+def content_image_url(name: str) -> str:
+    """URL зображення каталогу: спочатку /static/content/, інакше /media/."""
+    if not name:
+        return ''
+    static_path = f'content/{name}'
+    if finders.find(static_path):
+        return static(static_path)
+    from django.conf import settings
+    return f'{settings.MEDIA_URL}{name}'
+
+
+@register.simple_tag
 def laser_brochure_url(laser_type: str) -> str:
     """URL PDF-брошури для типу лазера (uv / co2 / fiber)."""
     path = LASER_BROCHURE_STATIC.get(laser_type)

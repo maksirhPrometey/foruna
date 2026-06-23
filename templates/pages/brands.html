@@ -27,7 +27,7 @@
         <div class="brand-card__header">
           {% if brand.logo %}
             <div class="brand-card__logo">
-              <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" loading="lazy">
+              <img src="{% content_image_url brand.logo.name %}" alt="{{ brand.name }}" loading="lazy">
             </div>
           {% else %}
             <div class="brand-card__logo brand-card__logo--text">

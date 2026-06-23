@@ -36,7 +36,7 @@
           <div class="laser-grid__image reveal">
             {% if product.image %}
               <div class="img-frame laser-img">
-                <img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy">
+                <img src="{% content_image_url product.image.name %}" alt="{{ product.title }}" loading="lazy">
               </div>
             {% else %}
               <div class="img-frame laser-img laser-img--placeholder" aria-hidden="true">
@@ -96,7 +96,7 @@
           <div class="laser-grid__image reveal">
             {% if product.image %}
               <div class="img-frame laser-img">
-                <img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy">
+                <img src="{% content_image_url product.image.name %}" alt="{{ product.title }}" loading="lazy">
               </div>
             {% else %}
               <div class="img-frame laser-img laser-img--placeholder" aria-hidden="true">
@@ -156,7 +156,7 @@
           <div class="laser-grid__image reveal">
             {% if laser.image %}
               <div class="img-frame laser-img">
-                <img src="{{ laser.image.url }}" alt="{{ laser.title }}" loading="lazy">
+                <img src="{% content_image_url laser.image.name %}" alt="{{ laser.title }}" loading="lazy">
               </div>
             {% else %}
               <div class="img-frame laser-img laser-img--placeholder" aria-hidden="true">

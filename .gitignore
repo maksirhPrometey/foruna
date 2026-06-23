@@ -4,6 +4,7 @@
 __pycache__/
 db.sqlite3
 staticfiles/
+/static/content/
 /media/
 .DS_Store
 *.egg-info/
