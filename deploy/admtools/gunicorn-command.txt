@@ -1,5 +1,8 @@
 # Команда для поля «Команда запуска» в ADM.TOOLS
-# Замініть 127.0.0.1:3000 на IP і порт з блоку «Проксирование HTTP-трафика»
+#
+# ⛔ НЕ 127.0.0.1 — nginx проксує на IP з блоку «Проксирование HTTP-трафика»
+# Для fortprint.com.ua: 127.1.9.16:3000
+#
 # Не використовуйте source activate — alias python у .bashrc вказує на 3.8
 
-cd /home/ep616268/fortprint.com.ua && .venv/bin/gunicorn config.wsgi:application --bind 127.0.0.1:3000 --workers 2 --timeout 120
+cd /home/ep616268/fortprint.com.ua && .venv/bin/gunicorn config.wsgi:application --bind 127.1.9.16:3000 --workers 2 --timeout 120
