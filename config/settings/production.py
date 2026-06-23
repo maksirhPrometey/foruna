@@ -46,14 +46,12 @@ USE_X_FORWARDED_HOST = True
 # ADM.TOOLS: SECURE_SSL_REDIRECT=True → redirect loop; Docker .env sets True explicitly
 SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
 SESSION_COOKIE_SECURE = True
-SESSION_COOKIE_SAMESITE = 'Strict'
+SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_SAMESITE = 'Strict'
-CSRF_TRUSTED_ORIGINS = config(
-    'CSRF_TRUSTED_ORIGINS',
-    default='',
-    cast=lambda v: [s.strip() for s in v.split(',') if s.strip()],
-)
+CSRF_COOKIE_SAMESITE = 'Lax'
+from config.csrf_origins import build_csrf_trusted_origins
+
+CSRF_TRUSTED_ORIGINS = build_csrf_trusted_origins(ALLOWED_HOSTS)
 SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
