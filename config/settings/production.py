@@ -58,6 +58,10 @@ SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
+# ADM.TOOLS: Gunicorn без nginx для /media/ — віддаємо через Django.
+# Docker: nginx alias /media/ → SERVE_MEDIA=False (за замовчуванням для PostgreSQL).
+SERVE_MEDIA = config('SERVE_MEDIA', default=_db_engine == 'mysql', cast=bool)
+
 # Docker: nginx serves /static/ — override WhiteNoise storage
 if _db_engine == 'postgresql':
     STORAGES = {
