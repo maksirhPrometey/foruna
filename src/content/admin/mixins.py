@@ -34,6 +34,9 @@ class PagePreviewMixin:
         fields = list(super().get_readonly_fields(request, obj))
         if self.preview_url_name:
             fields.append('page_preview')
+        for name in getattr(self, 'related_admin_link_fields', ()):
+            if name not in fields:
+                fields.append(name)
         return fields
 
     def page_preview(self, obj):
