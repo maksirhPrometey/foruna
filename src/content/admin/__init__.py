@@ -2,8 +2,9 @@
 
 from django.contrib import admin
 
-from src.content.admin import catalogs  # noqa: F401 — @admin.register у catalogs
-from src.content.admin.pages import (
+from . import catalogs  # noqa: F401
+from . import sections  # noqa: F401
+from .pages import (
     BrandsPageAdmin,
     ContactsPageAdmin,
     HomePageAdmin,

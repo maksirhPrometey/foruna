@@ -51,9 +51,29 @@ def deploy_health(request: HttpRequest):
             'www_dir': (base_dir / 'www').is_dir(),
             'www_staticfiles_content': (base_dir / 'www' / 'staticfiles' / static_rel).is_file(),
             'passenger_wsgi': (base_dir / 'passenger_wsgi.py').is_file(),
+            'admin_py_removed': not (base_dir / 'src' / 'content' / 'admin.py').is_file(),
+            'admin_package': (base_dir / 'src' / 'content' / 'admin' / '__init__.py').is_file(),
         },
     }
     if (static_root / static_rel).is_file():
         data['checks']['staticfiles_content_size'] = (static_root / static_rel).stat().st_size
+
+    try:
+        from django.contrib import admin
+        from src.content.models import MarkingPage
+        from src.content.admin_sidebar import ADMIN_SIDEBAR
+
+        marking_admin = admin.site._registry.get(MarkingPage)
+        if marking_admin:
+            cls = marking_admin.__class__
+            fieldsets = getattr(cls, 'fieldsets', None) or []
+            data['admin_runtime'] = {
+                'marking_admin_class': f'{cls.__module__}.{cls.__name__}',
+                'marking_fieldsets': [row[0] for row in fieldsets],
+                'sidebar_first_section': ADMIN_SIDEBAR['navigation'][0]['title'],
+                'admin_links_ok': any('Картки' in title for title, _ in fieldsets),
+            }
+    except Exception as exc:
+        data['admin_runtime'] = {'error': str(exc)}
 
     return JsonResponse(data, json_dumps_params={'ensure_ascii': False, 'indent': 2})

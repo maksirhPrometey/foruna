@@ -484,6 +484,7 @@ class Brand(models.Model):
 
 
 from src.content.models_extra import CIJProduct, TTOProduct, GalleryImage  # noqa: E402
+from src.content.models_sections import ContentSection, ContentCard  # noqa: E402
 
 
 class BrandsPage(_PageSingleton):

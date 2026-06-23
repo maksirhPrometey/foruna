@@ -89,7 +89,12 @@ class GalleryImage(models.Model):
     class GalleryKey(models.TextChoices):
         XRAY_FOODMAN = 'xray_foodman', 'КЯ — галерея FOODMAN (рентген)'
 
-    gallery = models.CharField('Галерея', max_length=30, choices=GalleryKey.choices)
+    gallery = models.CharField('Галерея', max_length=30, choices=GalleryKey.choices, blank=True)
+    section = models.ForeignKey(
+        'ContentSection', on_delete=models.CASCADE,
+        related_name='gallery_images', verbose_name='Розділ',
+        blank=True, null=True,
+    )
     image = models.ImageField('Зображення', upload_to='gallery/')
     alt_text = models.CharField('Alt-текст', max_length=160, blank=True)
     ordering = models.PositiveSmallIntegerField('Порядок', default=0)

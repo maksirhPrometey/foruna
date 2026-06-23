@@ -186,6 +186,6 @@ class GalleryImageAdmin(_ImageAdminMixin, ModelAdmin):
     list_filter = ['gallery']
     ordering = ['gallery', 'ordering']
     fieldsets = [
-        ('Галерея', {'fields': ['gallery', 'ordering', 'alt_text']}),
+        ('Галерея', {'fields': ['section', 'gallery', 'ordering', 'alt_text']}),
         ('Зображення', {'fields': ['image', 'image_preview_detail']}),
     ]

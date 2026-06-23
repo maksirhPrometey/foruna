@@ -6,7 +6,6 @@
 
 {% block content %}
 
-<!-- Page hero -->
 <section class="page-hero bg-dark" aria-labelledby="page-hero-title">
   <div class="container">
     <div class="page-hero__inner reveal">
@@ -17,127 +16,6 @@
   </div>
 </section>
 
-<!-- CIJ inkjet printers -->
-{% if cij_products %}
-<section class="marking-category section-pad bg-light" aria-labelledby="cij-section-title">
-  <div class="container">
-    <header class="category-header reveal">
-      <p class="label label-gold">Напрям 01 — Маркування</p>
-      <h2 class="section-title display" id="cij-section-title">Каплеструйні маркіратори Linx</h2>
-    </header>
-  </div>
-</section>
-  {% for product in cij_products %}
-    <section class="laser-section {% if not forloop.first %}bg-light{% endif %} section-pad"
-             id="cij-{{ product.series }}"
-             aria-labelledby="cij-{{ product.series }}-title">
-      <div class="container">
-        <div class="laser-grid {% if forloop.even %}laser-grid--reverse{% endif %}">
-          <div class="laser-grid__image reveal">
-            {% if product.image %}
-              <div class="img-frame laser-img">
-                <img src="{% content_image_url product.image.name %}" alt="{{ product.title }}" loading="lazy">
-              </div>
-            {% else %}
-              <div class="img-frame laser-img laser-img--placeholder" aria-hidden="true">
-                <div class="img-placeholder">
-                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1" opacity=".3"><rect x="12" y="18" width="40" height="28" rx="3"/><path d="M24 46v4M40 46v4" stroke-width="2"/></svg>
-                </div>
-              </div>
-            {% endif %}
-          </div>
-          <div class="laser-grid__content reveal" data-reveal-delay=".1s">
-            <p class="label">{{ product.get_series_display }}</p>
-            <h2 class="subsection-title display" id="cij-{{ product.series }}-title">{{ product.title }}</h2>
-            {% if product.subtitle %}<p class="body-lg laser-subtitle">{{ product.subtitle }}</p>{% endif %}
-            <div class="body-md prose-content">{{ product.description|linebreaksbr }}</div>
-
-            {% if product.model_numbers %}
-              <div class="marking-models">
-                <p class="label">Моделі</p>
-                <div class="model-tags">
-                  {% for m in product.get_model_numbers_list %}
-                    <span class="model-tag">{{ m }}</span>
-                  {% endfor %}
-                </div>
-              </div>
-            {% endif %}
-
-            {% with specs=product.get_specs_list %}
-              {% if specs %}
-                <ul class="feature-list" role="list">
-                  {% for spec in specs %}<li>{{ spec }}</li>{% endfor %}
-                </ul>
-              {% endif %}
-            {% endwith %}
-          </div>
-        </div>
-      </div>
-    </section>
-  {% endfor %}
-{% endif %}
-
-<!-- TTO thermal transfer printers -->
-{% if tto_products %}
-<section class="marking-category section-pad" aria-labelledby="tto-section-title">
-  <div class="container">
-    <header class="category-header reveal">
-      <p class="label label-gold">Напрям 01 — Маркування</p>
-      <h2 class="section-title display" id="tto-section-title">Термотрансферні маркіратори Linx</h2>
-    </header>
-  </div>
-</section>
-  {% for product in tto_products %}
-    <section class="laser-section {% if forloop.even %}bg-light{% endif %} section-pad"
-             id="tto-{{ product.model_series|lower }}"
-             aria-labelledby="tto-{{ product.model_series|lower }}-title">
-      <div class="container">
-        <div class="laser-grid {% if forloop.odd %}laser-grid--reverse{% endif %}">
-          <div class="laser-grid__image reveal">
-            {% if product.image %}
-              <div class="img-frame laser-img">
-                <img src="{% content_image_url product.image.name %}" alt="{{ product.title }}" loading="lazy">
-              </div>
-            {% else %}
-              <div class="img-frame laser-img laser-img--placeholder" aria-hidden="true">
-                <div class="img-placeholder">
-                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1" opacity=".3"><rect x="12" y="18" width="40" height="28" rx="3"/><path d="M24 46v4M40 46v4" stroke-width="2"/></svg>
-                </div>
-              </div>
-            {% endif %}
-          </div>
-          <div class="laser-grid__content reveal" data-reveal-delay=".1s">
-            <p class="label">Linx {{ product.model_series }}</p>
-            <h2 class="subsection-title display" id="tto-{{ product.model_series|lower }}-title">{{ product.title }}</h2>
-            {% if product.subtitle %}<p class="body-lg laser-subtitle">{{ product.subtitle }}</p>{% endif %}
-            <div class="body-md prose-content">{{ product.description|linebreaksbr }}</div>
-
-            {% if product.variants %}
-              <div class="marking-models">
-                <p class="label">Варіанти</p>
-                <div class="model-tags">
-                  {% for v in product.get_variants_list %}
-                    <span class="model-tag">{{ v }}</span>
-                  {% endfor %}
-                </div>
-              </div>
-            {% endif %}
-
-            {% with specs=product.get_specs_list %}
-              {% if specs %}
-                <ul class="feature-list" role="list">
-                  {% for spec in specs %}<li>{{ spec }}</li>{% endfor %}
-                </ul>
-              {% endif %}
-            {% endwith %}
-          </div>
-        </div>
-      </div>
-    </section>
-  {% endfor %}
-{% endif %}
-
-<!-- Intro: чому лазерне маркування -->
 {% if marking.intro_title %}
 <section class="section-pad" aria-labelledby="marking-intro-title">
   <div class="container">
@@ -152,95 +30,12 @@
 </section>
 {% endif %}
 
-<!-- Laser types -->
-{% if lasers %}
-<section class="marking-category section-pad bg-light" aria-labelledby="laser-section-title">
-  <div class="container">
-    <header class="category-header reveal">
-      <p class="label label-gold">Напрям 01 — Маркування</p>
-      <h2 class="section-title display" id="laser-section-title">Лазерні маркіратори</h2>
-    </header>
-  </div>
-</section>
-  {% for laser in lasers %}
-    <section class="laser-section {% if forloop.even %}bg-light{% endif %} section-pad"
-             id="{{ laser.laser_type }}-laser"
-             aria-labelledby="laser-{{ laser.laser_type }}-title">
-      <div class="container">
-        <div class="laser-grid {% if forloop.even %}laser-grid--reverse{% endif %}">
-          <div class="laser-grid__image reveal">
-            {% if laser.image %}
-              <div class="img-frame laser-img">
-                <img src="{% content_image_url laser.image.name %}" alt="{{ laser.title }}" loading="lazy">
-              </div>
-            {% else %}
-              <div class="img-frame laser-img laser-img--placeholder" aria-hidden="true">
-                <div class="img-placeholder">
-                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1" opacity=".3" aria-hidden="true">
-                    <circle cx="32" cy="32" r="20"/>
-                    <path d="M32 12v4M32 48v4M12 32h4M48 32h4" stroke-width="2"/>
-                    <circle cx="32" cy="32" r="4" fill="currentColor"/>
-                  </svg>
-                </div>
-              </div>
-            {% endif %}
-          </div>
-          <div class="laser-grid__content reveal" data-reveal-delay=".1s">
-            <p class="label">{{ laser.get_laser_type_display }}</p>
-            <h2 class="subsection-title display" id="laser-{{ laser.laser_type }}-title">{{ laser.title }}</h2>
-            {% if laser.subtitle %}
-              <p class="body-lg laser-subtitle">{{ laser.subtitle }}</p>
-            {% endif %}
-            <div class="body-md prose-content">{{ laser.description|linebreaksbr }}</div>
-
-            {% if laser.wavelength or laser.power_range or laser.marking_speed %}
-              <dl class="laser-specs">
-                {% if laser.wavelength %}
-                  <div class="laser-specs__item">
-                    <dt>Довжина хвилі</dt>
-                    <dd>{{ laser.wavelength }}</dd>
-                  </div>
-                {% endif %}
-                {% if laser.power_range %}
-                  <div class="laser-specs__item">
-                    <dt>Потужність</dt>
-                    <dd>{{ laser.power_range }}</dd>
-                  </div>
-                {% endif %}
-                {% if laser.marking_speed %}
-                  <div class="laser-specs__item">
-                    <dt>Швидкість</dt>
-                    <dd>{{ laser.marking_speed }}</dd>
-                  </div>
-                {% endif %}
-              </dl>
-            {% endif %}
-
-            {% with apps=laser.get_applications_list %}
-              {% if apps %}
-                <div class="laser-apps">
-                  <p class="label">Сфери застосування</p>
-                  <ul class="feature-list" role="list">
-                    {% for app in apps %}
-                      <li>{{ app }}</li>
-                    {% endfor %}
-                  </ul>
-                </div>
-              {% endif %}
-            {% endwith %}
-
-            {% laser_brochure_url laser as brochure_url %}
-            {% include "partials/laser_brochure.html" with brochure_url=brochure_url %}
-          </div>
-        </div>
-      </div>
-    </section>
-  {% endfor %}
-{% else %}
+{% for section in page_sections %}
+  {% include "partials/content_section.html" with section=section bg_light=forloop.counter0|divisibleby:2 %}
+{% empty %}
   {% include "partials/laser_placeholders.html" %}
-{% endif %}
+{% endfor %}
 
-<!-- CTA -->
 <section class="cta-section section-pad bg-dark" aria-labelledby="marking-cta-title">
   <div class="container">
     <div class="cta-grid">

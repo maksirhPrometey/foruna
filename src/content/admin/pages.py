@@ -4,23 +4,18 @@ from unfold.admin import ModelAdmin
 
 from src.content.admin.links import admin_content_hub
 from src.content.admin.mixins import PagePreviewMixin, SingletonAdminMixin
+from src.content.admin.sections import LabelingSection, MarkingSection, QualitySection
 from src.content.models import (
     Brand,
     BrandsPage,
     ContactsPage,
     HomePage,
-    LabelingCategoryContent,
     LabelingPage,
-    LabelingProduct,
-    LaserProduct,
     MarkingPage,
-    QualityCategoryContent,
     QualityControlPage,
-    QualityProduct,
     SiteConfig,
     StatItem,
 )
-from src.content.models_extra import CIJProduct, GalleryImage, TTOProduct
 
 
 class SiteConfigAdmin(SingletonAdminMixin, ModelAdmin):
@@ -37,7 +32,7 @@ class SiteConfigAdmin(SingletonAdminMixin, ModelAdmin):
 
 class HomePageAdmin(PagePreviewMixin, SingletonAdminMixin, ModelAdmin):
     preview_url_name = 'core:home'
-    related_admin_link_fields = ('links_stats', 'links_lasers')
+    related_admin_link_fields = ('links_stats',)
 
     fieldsets = [
         ('Попередній перегляд', {'fields': ['page_preview']}),
@@ -46,11 +41,7 @@ class HomePageAdmin(PagePreviewMixin, SingletonAdminMixin, ModelAdmin):
         ('Блок «Про компанію»', {
             'fields': ['about_title', 'about_body_1', 'about_body_2', 'about_body_3', 'about_body_4'],
         }),
-        ('Цифри на головній (25+, HACCP…)', {
-            'fields': ['stats', 'links_stats'],
-            'description': 'Оберіть цифри нижче або відредагуйте їх у списку.',
-        }),
-        ('Лазери в блоці напрямів', {'fields': ['links_lasers']}),
+        ('Цифри на головній (25+, HACCP…)', {'fields': ['stats', 'links_stats']}),
         ('Форма внизу (CTA)', {'fields': ['cta_title', 'cta_body']}),
         ('SEO', {'fields': ['page_title', 'meta_description']}),
     ]
@@ -61,52 +52,29 @@ class HomePageAdmin(PagePreviewMixin, SingletonAdminMixin, ModelAdmin):
 
     links_stats.short_description = 'Редагування цифр'
 
-    def links_lasers(self, obj):
-        return admin_content_hub(
-            LaserProduct,
-            add_label='Додати лазер',
-            queryset=LaserProduct.objects.filter(is_active=True),
-        )
-
-    links_lasers.short_description = 'Картки лазерів (напрям «Маркування»)'
-
 
 class MarkingPageAdmin(PagePreviewMixin, SingletonAdminMixin, ModelAdmin):
     preview_url_name = 'core:marking'
-    related_admin_link_fields = ('links_cij', 'links_tto', 'links_lasers')
+    related_admin_link_fields = ('links_sections',)
 
     fieldsets = [
         ('Попередній перегляд', {'fields': ['page_preview']}),
         ('Верхній блок (Hero)', {'fields': ['hero_direction_label', 'hero_title', 'hero_subtitle']}),
         ('Блок «Чому лазерне маркування»', {'fields': ['intro_title', 'intro_body_1', 'intro_body_2']}),
-        ('Картки — каплеструйні Linx (CIJ)', {'fields': ['links_cij']}),
-        ('Картки — термотрансферні Linx (TTO)', {'fields': ['links_tto']}),
-        ('Картки — лазерні маркіратори', {'fields': ['links_lasers']}),
+        ('Розділи та картки на сторінці', {'fields': ['links_sections']}),
         ('Форма внизу (CTA)', {'fields': ['cta_title', 'cta_body']}),
         ('SEO', {'fields': ['page_title', 'meta_description']}),
     ]
 
-    def links_cij(self, obj):
-        return admin_content_hub(CIJProduct, add_label='Додати CIJ-маркіратор')
+    def links_sections(self, obj):
+        return admin_content_hub(MarkingSection, add_label='Додати розділ')
 
-    links_cij.short_description = 'Каплеструйні маркіратори на сторінці'
-
-    def links_tto(self, obj):
-        return admin_content_hub(TTOProduct, add_label='Додати TTO-маркіратор')
-
-    links_tto.short_description = 'Термотрансферні маркіратори на сторінці'
-
-    def links_lasers(self, obj):
-        return admin_content_hub(LaserProduct, add_label='Додати лазер')
-
-    links_lasers.short_description = 'Лазерні маркіратори на сторінці'
+    links_sections.short_description = 'Розділи (CIJ, TTO, лазери, нові…)'
 
 
 class QualityControlPageAdmin(PagePreviewMixin, SingletonAdminMixin, ModelAdmin):
     preview_url_name = 'core:quality_control'
-    related_admin_link_fields = (
-        'links_sections', 'links_products', 'links_gallery',
-    )
+    related_admin_link_fields = ('links_sections',)
 
     fieldsets = [
         ('Попередній перегляд', {'fields': ['page_preview']}),
@@ -118,71 +86,33 @@ class QualityControlPageAdmin(PagePreviewMixin, SingletonAdminMixin, ModelAdmin)
                 'filling_extra_2_title', 'filling_extra_2_body',
             ],
         }),
-        ('Тексти секцій (металодетектори, рентген, чеквейери…)', {'fields': ['links_sections']}),
-        ('Картки обладнання', {'fields': ['links_products']}),
-        ('Галерея FOODMAN (рентген)', {'fields': ['links_gallery']}),
+        ('Розділи та картки на сторінці', {'fields': ['links_sections']}),
         ('Форма внизу (CTA)', {'fields': ['cta_title', 'cta_body']}),
         ('SEO', {'fields': ['page_title', 'meta_description']}),
     ]
 
     def links_sections(self, obj):
-        return admin_content_hub(
-            QualityCategoryContent,
-            add_label='Додати секцію',
-        )
+        return admin_content_hub(QualitySection, add_label='Додати розділ')
 
-    links_sections.short_description = 'Секції сторінки'
-
-    def links_products(self, obj):
-        return admin_content_hub(
-            QualityProduct,
-            add_label='Додати картку обладнання',
-        )
-
-    links_products.short_description = 'Картки обладнання'
-
-    def links_gallery(self, obj):
-        return admin_content_hub(
-            GalleryImage,
-            add_label='Додати фото',
-            queryset=GalleryImage.objects.filter(gallery='xray_foodman'),
-        )
-
-    links_gallery.short_description = 'Фото галереї FOODMAN'
+    links_sections.short_description = 'Розділи (металодетектори, рентген, чеквейери…)'
 
 
 class LabelingPageAdmin(PagePreviewMixin, SingletonAdminMixin, ModelAdmin):
     preview_url_name = 'core:labeling'
-    related_admin_link_fields = ('links_sections', 'links_products')
+    related_admin_link_fields = ('links_sections',)
 
     fieldsets = [
         ('Попередній перегляд', {'fields': ['page_preview']}),
         ('Верхній блок (Hero)', {'fields': ['hero_direction_label', 'hero_title', 'hero_subtitle']}),
-        ('Тексти секцій', {'fields': ['links_sections']}),
-        ('Картки обладнання на сторінці', {
-            'fields': ['products', 'links_products'],
-            'description': 'Оберіть картки для показу або редагуйте їх у списку нижче.',
-        }),
+        ('Розділи та картки на сторінці', {'fields': ['links_sections']}),
         ('Форма внизу (CTA)', {'fields': ['cta_title', 'cta_body']}),
         ('SEO', {'fields': ['page_title', 'meta_description']}),
     ]
-    filter_horizontal = ['products']
 
     def links_sections(self, obj):
-        return admin_content_hub(
-            LabelingCategoryContent,
-            add_label='Додати секцію',
-        )
+        return admin_content_hub(LabelingSection, add_label='Додати розділ')
 
-    links_sections.short_description = 'Секції сторінки'
-
-    def links_products(self, obj):
-        return admin_content_hub(
-            LabelingProduct,
-            add_label='Додати картку',
-        )
-
-    links_products.short_description = 'Картки обладнання'
+    links_sections.short_description = 'Розділи (ALstep, ALritma, Print&Apply…)'
 
 
 class ContactsPageAdmin(PagePreviewMixin, SingletonAdminMixin, ModelAdmin):

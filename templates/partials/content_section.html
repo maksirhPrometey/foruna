@@ -1,0 +1,93 @@
+{% load static site_tags %}
+
+{% if section.layout == 'text' %}
+<section class="section-pad" aria-labelledby="section-{{ section.slug }}-title">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2 class="subsection-title display" id="section-{{ section.slug }}-title">{{ section.title }}</h2>
+    </div>
+    <div class="text-two-col reveal" data-reveal-delay=".05s">
+      {% if section.body_primary %}<p class="body-lg">{{ section.body_primary }}</p>{% endif %}
+      {% if section.body_secondary %}<p class="body-md">{{ section.body_secondary }}</p>{% endif %}
+    </div>
+  </div>
+</section>
+
+{% elif section.layout == 'detail' %}
+{% if section.header_style == 'category' %}
+<section class="marking-category section-pad {% if bg_light %}bg-light{% endif %}" aria-labelledby="section-{{ section.slug }}-title">
+  <div class="container">
+    <header class="category-header reveal">
+      {% if section.section_label %}<p class="label label-gold">{{ section.section_label }}</p>{% endif %}
+      <h2 class="section-title display" id="section-{{ section.slug }}-title">{{ section.title }}</h2>
+    </header>
+  </div>
+</section>
+{% endif %}
+{% for card in section.cards.all %}
+  {% if card.is_active %}
+    {% include "partials/content_card_detail.html" with card=card section=section forloop=forloop %}
+  {% endif %}
+{% empty %}
+  {% if section.header_style != 'category' %}
+  <section class="section-pad {% if bg_light %}bg-light{% endif %}">
+    <div class="container"><p class="body-md">Картки ще не додано.</p></div>
+  </section>
+  {% endif %}
+{% endfor %}
+
+{% elif section.layout == 'filling' %}
+{% include "partials/content_section_filling.html" %}
+
+{% elif section.layout == 'gallery' %}
+<section class="section-pad {% if bg_light %}bg-light{% endif %}" aria-labelledby="section-{{ section.slug }}-title">
+  <div class="container">
+    {% include "partials/content_section_header.html" %}
+    {% if section.body_primary or section.body_secondary %}
+      <div class="qc-description reveal" data-reveal-delay=".05s">
+        <div class="text-two-col">
+          {% if section.body_primary %}<div><p class="body-lg">{{ section.body_primary }}</p></div>{% endif %}
+          {% if section.body_secondary %}<div><p class="body-md">{{ section.body_secondary }}</p></div>{% endif %}
+        </div>
+      </div>
+    {% endif %}
+    {% with gallery=section.gallery_images.all %}
+      {% if gallery %}
+        <div class="reveal" data-reveal-delay=".1s">
+          {% include "partials/product_gallery.html" with images=gallery gallery_label=section.title gallery_alt=section.title %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% include "partials/content_section_features.html" %}
+  </div>
+</section>
+
+{% else %}
+<section class="section-pad {% if bg_light %}bg-light{% endif %}" aria-labelledby="section-{{ section.slug }}-title">
+  <div class="container">
+    {% include "partials/content_section_header.html" %}
+    {% if section.body_primary or section.body_secondary %}
+      <div class="qc-description reveal" data-reveal-delay=".05s">
+        <div class="text-two-col">
+          {% if section.body_primary %}<div><p class="body-lg">{{ section.body_primary }}</p></div>{% endif %}
+          {% if section.body_secondary %}<div><p class="body-md">{{ section.body_secondary }}</p></div>{% endif %}
+        </div>
+      </div>
+    {% endif %}
+    {% with cards=section.cards.all %}
+      {% if cards %}
+        {% with n=cards|length %}
+        <div class="products-grid grid-tablet-cols-{{ n|ideal_cols:2 }} grid-desktop-cols-{{ n|ideal_cols:3 }} reveal" data-reveal-delay=".1s">
+          {% for card in cards %}
+            {% if card.is_active %}
+              {% include "partials/product_card.html" with product=card %}
+            {% endif %}
+          {% endfor %}
+        </div>
+        {% endwith %}
+      {% endif %}
+    {% endwith %}
+    {% include "partials/content_section_features.html" %}
+  </div>
+</section>
+{% endif %}
