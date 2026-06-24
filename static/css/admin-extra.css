@@ -134,3 +134,22 @@
     align-items: flex-start;
   }
 }
+
+/* Tabular inline — поле файлу не ламає сітку Unfold */
+.tabular td.field-image .flex,
+.tabular td.field-image .file-upload-wrapper {
+  min-width: 0;
+  max-width: 14rem;
+}
+
+.tabular td.field-alt_text input {
+  width: 100%;
+  min-width: 8rem;
+}
+
+@media (max-width: 1023px) {
+  .tabular td.field-image .flex,
+  .tabular td.field-image .file-upload-wrapper {
+    max-width: 100%;
+  }
+}

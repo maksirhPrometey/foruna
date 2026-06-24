@@ -1,8 +1,7 @@
 """Адмінка каталогів, галерей та спільних блоків."""
 
 from django.contrib import admin
-from django.contrib.contenttypes.admin import GenericTabularInline
-from unfold.admin import ModelAdmin
+from unfold.admin import GenericTabularInline, ModelAdmin
 
 from src.content.admin.mixins import ImagePreviewMixin
 from src.content.models import (
@@ -23,7 +22,7 @@ class ProductGalleryInline(GenericTabularInline):
     extra = 1
     fields = ['ordering', 'image', 'alt_text']
     ordering = ['ordering']
-    verbose_name = 'Додаткове фото'
+    verbose_name = 'фото'
     verbose_name_plural = 'Додаткові фото (галерея в картці)'
 
 
