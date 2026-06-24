@@ -2,6 +2,7 @@ from django import template
 from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.templatetags.static import static
+from pathlib import Path
 
 register = template.Library()
 
@@ -42,10 +43,25 @@ def ideal_cols_filter(count, max_cols: int = 3) -> int:
 
 @register.simple_tag
 def content_image_url(name: str) -> str:
-    """URL зображення каталогу через /static/content/ (після collectstatic)."""
+    """
+    URL зображення: /static/content/ якщо файл є, інакше /media/ (свіже upload).
+    """
     if not name:
         return ''
-    return f'{settings.STATIC_URL}content/{name}'
+
+    static_rel = f'content/{name}'
+    if finders.find(static_rel):
+        return static(static_rel)
+
+    static_root_file = Path(settings.STATIC_ROOT) / static_rel
+    if static_root_file.is_file():
+        return f'{settings.STATIC_URL}{static_rel}'
+
+    media_file = Path(settings.MEDIA_ROOT) / name
+    if media_file.is_file():
+        return f'{settings.MEDIA_URL}{name}'
+
+    return f'{settings.STATIC_URL}{static_rel}'
 
 
 @register.simple_tag
