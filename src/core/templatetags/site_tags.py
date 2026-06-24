@@ -65,6 +65,34 @@ def content_image_url(name: str) -> str:
 
 
 @register.simple_tag
+def get_product_images(product) -> list[dict[str, str]]:
+    """Основне фото + галерея без дублів."""
+    if not product:
+        return []
+
+    images: list[dict[str, str]] = []
+    seen: set[str] = set()
+    title = getattr(product, 'title', None) or getattr(product, 'name', '') or ''
+
+    main_field = getattr(product, 'image', None) or getattr(product, 'logo', None)
+    if main_field and main_field.name:
+        images.append({'path': main_field.name, 'alt': title})
+        seen.add(main_field.name)
+
+    gallery = getattr(product, 'gallery_images', None)
+    if gallery is not None:
+        for item in gallery.all():
+            if item.image.name and item.image.name not in seen:
+                images.append({
+                    'path': item.image.name,
+                    'alt': item.alt_text or title,
+                })
+                seen.add(item.image.name)
+
+    return images
+
+
+@register.simple_tag
 def laser_brochure_url(laser) -> str:
     """URL PDF-брошури для лазерного продукту (upload або static fallback)."""
     laser_type = laser if isinstance(laser, str) else getattr(laser, 'laser_type', '')

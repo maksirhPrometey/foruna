@@ -1,0 +1,29 @@
+{% load site_tags %}
+{% get_product_images product as images %}
+{% if images %}
+  {% if images|length > 1 %}
+    {% include "partials/product_carousel.html" with images=images frame_class=frame_class %}
+  {% else %}
+    <div class="img-frame{% if frame_class %} {{ frame_class }}{% endif %}">
+      <img src="{% content_image_url images.0.path %}" alt="{{ images.0.alt }}" loading="lazy">
+    </div>
+  {% endif %}
+{% elif show_placeholder %}
+  <div class="img-frame{% if frame_class %} {{ frame_class }}{% endif %}{% if placeholder_class %} {{ placeholder_class }}{% endif %}" aria-hidden="true">
+    <div class="img-placeholder">
+      {% if placeholder_icon == 'laser' %}
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1" opacity=".3" aria-hidden="true">
+          <circle cx="32" cy="32" r="20"/>
+          <path d="M32 12v4M32 48v4M12 32h4M48 32h4" stroke-width="2"/>
+          <circle cx="32" cy="32" r="4" fill="currentColor"/>
+        </svg>
+      {% else %}
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1" opacity=".3" aria-hidden="true">
+          <rect x="8" y="8" width="32" height="32" rx="2"/>
+          <circle cx="18" cy="18" r="4"/>
+          <path d="M8 30l12-10 8 8 5-5 7 7"/>
+        </svg>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}

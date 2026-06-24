@@ -6,6 +6,8 @@
 
 from django.db import models
 
+from src.content.models_gallery import GALLERY_RELATION
+
 
 class CIJProduct(models.Model):
     """Каплеструйний маркіратор (Continuous Inkjet)."""
@@ -28,6 +30,7 @@ class CIJProduct(models.Model):
     )
     ordering = models.PositiveSmallIntegerField('Порядок', default=0)
     is_active = models.BooleanField('Активний', default=True)
+    gallery_images = GALLERY_RELATION
 
     class Meta:
         ordering = ['ordering']
@@ -67,6 +70,7 @@ class TTOProduct(models.Model):
     specs = models.TextField('Характеристики (кожна з нового рядка)', blank=True)
     ordering = models.PositiveSmallIntegerField('Порядок', default=0)
     is_active = models.BooleanField('Активний', default=True)
+    gallery_images = GALLERY_RELATION
 
     class Meta:
         ordering = ['ordering']

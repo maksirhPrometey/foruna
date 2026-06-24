@@ -20,6 +20,10 @@ from src.content.models_extra import GalleryImage
 from src.leads.forms import LeadForm
 
 
+def _with_gallery(qs):
+    return qs.prefetch_related('gallery_images')
+
+
 class HomeView(TemplateView):
     template_name = 'pages/home.html'
 
@@ -29,7 +33,7 @@ class HomeView(TemplateView):
         ctx['home'] = home
         ctx['page_title'] = home.page_title
         ctx['meta_description'] = home.meta_description
-        ctx['lasers'] = LaserProduct.objects.filter(is_active=True)
+        ctx['lasers'] = _with_gallery(LaserProduct.objects.filter(is_active=True))
         ctx['quality_categories'] = [
             {'key': 'metal_detector', 'label': 'Металодетектори'},
             {'key': 'xray', 'label': 'Рентгенівські інспектори'},
@@ -50,9 +54,9 @@ class MarkingView(TemplateView):
         ctx['marking'] = page
         ctx['page_title'] = page.page_title
         ctx['meta_description'] = page.meta_description
-        ctx['cij_products'] = CIJProduct.objects.filter(is_active=True)
-        ctx['tto_products'] = TTOProduct.objects.filter(is_active=True)
-        ctx['lasers'] = LaserProduct.objects.filter(is_active=True)
+        ctx['cij_products'] = _with_gallery(CIJProduct.objects.filter(is_active=True))
+        ctx['tto_products'] = _with_gallery(TTOProduct.objects.filter(is_active=True))
+        ctx['lasers'] = _with_gallery(LaserProduct.objects.filter(is_active=True))
         ctx['form'] = LeadForm(initial={'source': 'marking'})
         return ctx
 
@@ -66,13 +70,19 @@ class QualityControlView(TemplateView):
         ctx['qc'] = page
         ctx['page_title'] = page.page_title
         ctx['meta_description'] = page.meta_description
-        ctx['metal_detectors'] = QualityProduct.objects.filter(category='metal_detector', is_active=True)
+        ctx['metal_detectors'] = _with_gallery(
+            QualityProduct.objects.filter(category='metal_detector', is_active=True)
+        )
         ctx['xray_gallery'] = [
             {'path': img.image.name, 'alt': img.alt_text or 'Рентгенівський інспектор FOODMAN'}
             for img in GalleryImage.objects.filter(gallery='xray_foodman').order_by('ordering')
         ]
-        ctx['checkweighers'] = QualityProduct.objects.filter(category='checkweigher', is_active=True)
-        ctx['filling_systems'] = QualityProduct.objects.filter(category='filling', is_active=True)
+        ctx['checkweighers'] = _with_gallery(
+            QualityProduct.objects.filter(category='checkweigher', is_active=True)
+        )
+        ctx['filling_systems'] = _with_gallery(
+            QualityProduct.objects.filter(category='filling', is_active=True)
+        )
         ctx['category_sections'] = {
             s.category: s
             for s in QualityCategoryContent.objects.all()
@@ -90,10 +100,10 @@ class LabelingView(TemplateView):
         ctx['labeling'] = page
         ctx['page_title'] = page.page_title
         ctx['meta_description'] = page.meta_description
-        ctx['alstep_products'] = LabelingProduct.objects.filter(category='alstep', is_active=True)
-        ctx['alritma_products'] = LabelingProduct.objects.filter(category='alritma', is_active=True)
-        ctx['print_apply_products'] = LabelingProduct.objects.filter(category='print_apply', is_active=True)
-        ctx['labelling_products'] = LabelingProduct.objects.filter(category='labelling', is_active=True)
+        ctx['alstep_products'] = _with_gallery(LabelingProduct.objects.filter(category='alstep', is_active=True))
+        ctx['alritma_products'] = _with_gallery(LabelingProduct.objects.filter(category='alritma', is_active=True))
+        ctx['print_apply_products'] = _with_gallery(LabelingProduct.objects.filter(category='print_apply', is_active=True))
+        ctx['labelling_products'] = _with_gallery(LabelingProduct.objects.filter(category='labelling', is_active=True))
         ctx['category_sections'] = {
             s.category: s
             for s in LabelingCategoryContent.objects.all()
@@ -124,6 +134,6 @@ class BrandsView(TemplateView):
         ctx['brands_page'] = page
         ctx['page_title'] = page.page_title
         ctx['meta_description'] = page.meta_description
-        ctx['brands'] = Brand.objects.filter(is_active=True)
+        ctx['brands'] = _with_gallery(Brand.objects.filter(is_active=True))
         ctx['form'] = LeadForm(initial={'source': 'contact'})
         return ctx

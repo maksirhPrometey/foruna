@@ -7,6 +7,7 @@ from django.core.management.base import BaseCommand
 from src.content.media_sync import sync_uploaded_content_image
 from src.content.models import Brand, LabelingProduct, LaserProduct, QualityProduct
 from src.content.models_extra import CIJProduct, GalleryImage, TTOProduct
+from src.content.models_gallery import ProductGalleryImage
 
 _MODELS = (
     (CIJProduct, 'image'),
@@ -16,6 +17,7 @@ _MODELS = (
     (LabelingProduct, 'image'),
     (Brand, 'logo'),
     (GalleryImage, 'image'),
+    (ProductGalleryImage, 'image'),
 )
 
 

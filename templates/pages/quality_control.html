@@ -82,11 +82,9 @@
         <div class="qc-products-mini">
           {% for prod in filling_systems %}
             <div class="qc-product-mini">
-              {% if prod.image %}
-                <div class="img-frame qc-mini-img">
-                  <img src="{% content_image_url prod.image.name %}" alt="{{ prod.title }}" loading="lazy">
-                </div>
-              {% endif %}
+              <div class="qc-mini-img-wrap">
+                {% include "partials/product_media.html" with product=prod frame_class="qc-mini-img" %}
+              </div>
               <h3 class="qc-product-mini__title">{{ prod.title }}</h3>
               <p class="body-sm">{{ prod.subtitle }}</p>
             </div>

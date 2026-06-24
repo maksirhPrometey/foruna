@@ -34,17 +34,7 @@
       <div class="container">
         <div class="laser-grid {% if forloop.even %}laser-grid--reverse{% endif %}">
           <div class="laser-grid__image reveal">
-            {% if product.image %}
-              <div class="img-frame laser-img">
-                <img src="{% content_image_url product.image.name %}" alt="{{ product.title }}" loading="lazy">
-              </div>
-            {% else %}
-              <div class="img-frame laser-img laser-img--placeholder" aria-hidden="true">
-                <div class="img-placeholder">
-                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1" opacity=".3"><rect x="12" y="18" width="40" height="28" rx="3"/><path d="M24 46v4M40 46v4" stroke-width="2"/></svg>
-                </div>
-              </div>
-            {% endif %}
+            {% include "partials/product_media.html" with product=product frame_class="laser-img" show_placeholder=True placeholder_class="laser-img--placeholder" %}
           </div>
           <div class="laser-grid__content reveal" data-reveal-delay=".1s">
             <p class="label">{{ product.get_series_display }}</p>
@@ -94,17 +84,7 @@
       <div class="container">
         <div class="laser-grid {% if forloop.odd %}laser-grid--reverse{% endif %}">
           <div class="laser-grid__image reveal">
-            {% if product.image %}
-              <div class="img-frame laser-img">
-                <img src="{% content_image_url product.image.name %}" alt="{{ product.title }}" loading="lazy">
-              </div>
-            {% else %}
-              <div class="img-frame laser-img laser-img--placeholder" aria-hidden="true">
-                <div class="img-placeholder">
-                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1" opacity=".3"><rect x="12" y="18" width="40" height="28" rx="3"/><path d="M24 46v4M40 46v4" stroke-width="2"/></svg>
-                </div>
-              </div>
-            {% endif %}
+            {% include "partials/product_media.html" with product=product frame_class="laser-img" show_placeholder=True placeholder_class="laser-img--placeholder" %}
           </div>
           <div class="laser-grid__content reveal" data-reveal-delay=".1s">
             <p class="label">Linx {{ product.model_series }}</p>
@@ -169,21 +149,7 @@
       <div class="container">
         <div class="laser-grid {% if forloop.even %}laser-grid--reverse{% endif %}">
           <div class="laser-grid__image reveal">
-            {% if laser.image %}
-              <div class="img-frame laser-img">
-                <img src="{% content_image_url laser.image.name %}" alt="{{ laser.title }}" loading="lazy">
-              </div>
-            {% else %}
-              <div class="img-frame laser-img laser-img--placeholder" aria-hidden="true">
-                <div class="img-placeholder">
-                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1" opacity=".3" aria-hidden="true">
-                    <circle cx="32" cy="32" r="20"/>
-                    <path d="M32 12v4M32 48v4M12 32h4M48 32h4" stroke-width="2"/>
-                    <circle cx="32" cy="32" r="4" fill="currentColor"/>
-                  </svg>
-                </div>
-              </div>
-            {% endif %}
+            {% include "partials/product_media.html" with product=laser frame_class="laser-img" show_placeholder=True placeholder_class="laser-img--placeholder" placeholder_icon="laser" %}
           </div>
           <div class="laser-grid__content reveal" data-reveal-delay=".1s">
             <p class="label">{{ laser.get_laser_type_display }}</p>

@@ -3,6 +3,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from src.content.models_gallery import ProductGalleryImage
 from src.content.media_sync import sync_uploaded_content_image
 from src.content.models import Brand, LabelingProduct, LaserProduct, QualityProduct
 from src.content.models_extra import CIJProduct, GalleryImage, TTOProduct
@@ -15,6 +16,7 @@ _IMAGE_FIELDS = {
     LabelingProduct: ('image',),
     Brand: ('logo',),
     GalleryImage: ('image',),
+    ProductGalleryImage: ('image',),
 }
 
 

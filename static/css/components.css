@@ -955,6 +955,120 @@ body.menu-open { overflow: hidden; }
 }
 
 /* ===========================
+   CARD CAROUSEL (product cards)
+   =========================== */
+.card-carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  isolation: isolate;
+}
+
+.card-carousel__viewport {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  touch-action: pan-y pinch-zoom;
+  -webkit-overflow-scrolling: touch;
+}
+
+.card-carousel__track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.card-carousel__slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.card-carousel__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-carousel__btn {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  background: rgba(15, 15, 15, 0.55);
+  color: #fff;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card-carousel__btn:hover,
+.card-carousel__btn:focus-visible {
+  background: rgba(15, 15, 15, 0.78);
+  border-color: rgba(255, 255, 255, 0.65);
+}
+
+.card-carousel__btn--prev { left: 0.625rem; }
+.card-carousel__btn--next { right: 0.625rem; }
+
+.card-carousel__dots {
+  position: absolute;
+  left: 50%;
+  bottom: 0.625rem;
+  z-index: 2;
+  display: flex;
+  gap: 0.375rem;
+  transform: translateX(-50%);
+}
+
+.card-carousel__dot {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card-carousel__dot.is-active {
+  background: var(--gold, #c9a227);
+  transform: scale(1.25);
+}
+
+.product-card__image .card-carousel,
+.laser-grid__image .card-carousel,
+.qc-mini-img-wrap .card-carousel {
+  aspect-ratio: 4 / 3;
+}
+
+.qc-mini-img-wrap {
+  aspect-ratio: 4 / 3;
+}
+
+@media (max-width: 639px) {
+  .card-carousel__btn {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .card-carousel__btn--prev { left: 0.375rem; }
+  .card-carousel__btn--next { right: 0.375rem; }
+}
+
+/* ===========================
    PRODUCTS GRID
    =========================== */
 .products-grid {

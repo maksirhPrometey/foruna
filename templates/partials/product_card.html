@@ -1,20 +1,8 @@
 {% load static site_tags %}
 <article class="product-card">
-  {% if product.image %}
-    <div class="product-card__image img-frame">
-      <img src="{% content_image_url product.image.name %}" alt="{{ product.title }}" loading="lazy">
-    </div>
-  {% else %}
-    <div class="product-card__image product-card__image--placeholder" aria-hidden="true">
-      <div class="img-placeholder">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1" opacity=".3" aria-hidden="true">
-          <rect x="8" y="8" width="32" height="32" rx="2"/>
-          <circle cx="18" cy="18" r="4"/>
-          <path d="M8 30l12-10 8 8 5-5 7 7"/>
-        </svg>
-      </div>
-    </div>
-  {% endif %}
+  <div class="product-card__image">
+    {% include "partials/product_media.html" with product=product show_placeholder=True placeholder_class="product-card__image--placeholder" %}
+  </div>
   <div class="product-card__body">
     <p class="label">{{ product.get_category_display }}</p>
     <h3 class="product-card__title">{{ product.title }}</h3>

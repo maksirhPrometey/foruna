@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.text import slugify
 
+from src.content.models_gallery import GALLERY_RELATION
+
 
 # ---------------------------------------------------------------------------
 # Global singleton
@@ -87,6 +89,7 @@ class LabelingProduct(models.Model):
     features = models.TextField('Характеристики (кожна з нового рядка)', blank=True)
     ordering = models.PositiveSmallIntegerField('Порядок', default=0)
     is_active = models.BooleanField('Активний', default=True)
+    gallery_images = GALLERY_RELATION
 
     class Meta:
         ordering = ['ordering']
@@ -407,6 +410,7 @@ class LaserProduct(models.Model):
     ordering = models.PositiveSmallIntegerField('Порядок', default=0)
     meta_description = models.CharField('Meta description', max_length=300, blank=True)
     is_active = models.BooleanField('Активний', default=True)
+    gallery_images = GALLERY_RELATION
 
     class Meta:
         ordering = ['ordering']
@@ -436,6 +440,7 @@ class QualityProduct(models.Model):
     features = models.TextField('Переваги (кожна з нового рядка)', blank=True)
     ordering = models.PositiveSmallIntegerField('Порядок', default=0)
     is_active = models.BooleanField('Активний', default=True)
+    gallery_images = GALLERY_RELATION
 
     class Meta:
         ordering = ['ordering']
@@ -470,6 +475,7 @@ class Brand(models.Model):
     website = models.URLField('Вебсайт', blank=True)
     ordering = models.PositiveSmallIntegerField('Порядок', default=0)
     is_active = models.BooleanField('Активний', default=True)
+    gallery_images = GALLERY_RELATION
 
     class Meta:
         ordering = ['ordering']
@@ -484,6 +490,7 @@ class Brand(models.Model):
 
 
 from src.content.models_extra import CIJProduct, TTOProduct, GalleryImage  # noqa: E402
+from src.content.models_gallery import ProductGalleryImage  # noqa: E402
 from src.content.models_sections import ContentSection, ContentCard  # noqa: E402
 
 

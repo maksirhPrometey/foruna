@@ -1,6 +1,7 @@
 """Адмінка каталогів, галерей та спільних блоків."""
 
 from django.contrib import admin
+from django.contrib.contenttypes.admin import GenericTabularInline
 from unfold.admin import ModelAdmin
 
 from src.content.admin.mixins import ImagePreviewMixin
@@ -14,6 +15,16 @@ from src.content.models import (
     StatItem,
 )
 from src.content.models_extra import CIJProduct, GalleryImage, TTOProduct
+from src.content.models_gallery import ProductGalleryImage
+
+
+class ProductGalleryInline(GenericTabularInline):
+    model = ProductGalleryImage
+    extra = 1
+    fields = ['ordering', 'image', 'alt_text']
+    ordering = ['ordering']
+    verbose_name = 'Додаткове фото'
+    verbose_name_plural = 'Додаткові фото (галерея в картці)'
 
 
 class _ImageAdminMixin(ImagePreviewMixin):
@@ -68,6 +79,7 @@ class LabelingCategoryContentAdmin(ModelAdmin):
 
 @admin.register(LabelingProduct)
 class LabelingProductAdmin(_ImageAdminMixin, ModelAdmin):
+    inlines = [ProductGalleryInline]
     list_display = ['image_preview', 'title', 'category', 'ordering', 'is_active']
     list_editable = ['ordering', 'is_active']
     list_filter = ['category', 'is_active']
@@ -85,6 +97,7 @@ class LabelingProductAdmin(_ImageAdminMixin, ModelAdmin):
 
 @admin.register(LaserProduct)
 class LaserProductAdmin(_ImageAdminMixin, ModelAdmin):
+    inlines = [ProductGalleryInline]
     list_display = ['image_preview', 'laser_type', 'title', 'ordering', 'is_active']
     list_editable = ['ordering', 'is_active']
     list_filter = ['laser_type', 'is_active']
@@ -107,6 +120,7 @@ class LaserProductAdmin(_ImageAdminMixin, ModelAdmin):
 
 @admin.register(QualityProduct)
 class QualityProductAdmin(_ImageAdminMixin, ModelAdmin):
+    inlines = [ProductGalleryInline]
     list_display = ['image_preview', 'category', 'title', 'ordering', 'is_active']
     list_editable = ['ordering', 'is_active']
     list_filter = ['category', 'is_active']
@@ -125,6 +139,7 @@ class QualityProductAdmin(_ImageAdminMixin, ModelAdmin):
 
 @admin.register(Brand)
 class BrandAdmin(_ImageAdminMixin, ModelAdmin):
+    inlines = [ProductGalleryInline]
     list_display = ['image_preview', 'name', 'country', 'founded', 'ordering', 'is_active']
     list_editable = ['ordering', 'is_active']
     list_filter = ['is_active']
@@ -147,6 +162,7 @@ class BrandAdmin(_ImageAdminMixin, ModelAdmin):
 
 @admin.register(CIJProduct)
 class CIJProductAdmin(_ImageAdminMixin, ModelAdmin):
+    inlines = [ProductGalleryInline]
     list_display = ['image_preview', 'title', 'series', 'model_numbers', 'ordering', 'is_active']
     list_editable = ['ordering', 'is_active']
     list_filter = ['series', 'is_active']
@@ -164,6 +180,7 @@ class CIJProductAdmin(_ImageAdminMixin, ModelAdmin):
 
 @admin.register(TTOProduct)
 class TTOProductAdmin(_ImageAdminMixin, ModelAdmin):
+    inlines = [ProductGalleryInline]
     list_display = ['image_preview', 'title', 'model_series', 'print_widths', 'ordering', 'is_active']
     list_editable = ['ordering', 'is_active']
     list_filter = ['is_active']

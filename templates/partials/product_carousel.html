@@ -1,0 +1,27 @@
+{% load site_tags %}
+<div class="card-carousel" data-card-carousel>
+  <div class="card-carousel__viewport" data-carousel-viewport>
+    <div class="card-carousel__track" data-carousel-track>
+      {% for image in images %}
+        <figure class="card-carousel__slide img-frame{% if frame_class %} {{ frame_class }}{% endif %}" data-carousel-slide{% if not forloop.first %} aria-hidden="true"{% endif %}>
+          <img src="{% content_image_url image.path %}" alt="{{ image.alt }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+        </figure>
+      {% endfor %}
+    </div>
+  </div>
+  <button type="button" class="card-carousel__btn card-carousel__btn--prev" data-carousel-prev aria-label="Попереднє фото">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path d="M12.5 4.5L7 10l5.5 5.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <button type="button" class="card-carousel__btn card-carousel__btn--next" data-carousel-next aria-label="Наступне фото">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path d="M7.5 4.5L13 10l-5.5 5.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <div class="card-carousel__dots" role="tablist" aria-label="Фото в галереї">
+    {% for image in images %}
+      <button type="button" class="card-carousel__dot{% if forloop.first %} is-active{% endif %}" data-carousel-dot="{{ forloop.counter0 }}" role="tab" aria-label="Фото {{ forloop.counter }}"{% if forloop.first %} aria-selected="true"{% else %} aria-selected="false"{% endif %}></button>
+    {% endfor %}
+  </div>
+</div>
