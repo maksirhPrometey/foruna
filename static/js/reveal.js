@@ -6,25 +6,8 @@
     return;
   }
 
-  const showElement = (el) => {
-    el.classList.add('is-visible');
-  };
-
-  const isInViewport = (el) => {
-    const rect = el.getBoundingClientRect();
-    const viewHeight = window.innerHeight || document.documentElement.clientHeight;
-    return rect.top < viewHeight && rect.bottom > 0;
-  };
-
   revealElements.forEach((el) => {
-    const delay = el.dataset.revealDelay;
-    if (delay) {
-      el.style.setProperty('--delay', delay);
-    }
-
-    if (reduceMotion.matches || isInViewport(el)) {
-      showElement(el);
-    }
+    el.classList.add('is-visible');
   });
 
   if (reduceMotion.matches) {
@@ -35,7 +18,7 @@
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          showElement(entry.target);
+          entry.target.classList.add('is-visible');
           observer.unobserve(entry.target);
         }
       });
@@ -44,16 +27,6 @@
   );
 
   revealElements.forEach((el) => {
-    if (!el.classList.contains('is-visible')) {
-      observer.observe(el);
-    }
+    observer.observe(el);
   });
-
-  window.setTimeout(() => {
-    revealElements.forEach((el) => {
-      if (!el.classList.contains('is-visible')) {
-        showElement(el);
-      }
-    });
-  }, 800);
 })();

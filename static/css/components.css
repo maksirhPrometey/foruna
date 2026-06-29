@@ -88,9 +88,14 @@
 
 .img-frame img {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: cover;
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.img-frame.laser-img img,
+.img-frame:not(.card-carousel__slide) img {
+  height: 100%;
 }
 
 .img-frame:hover img { transform: scale(1.04); }
@@ -107,20 +112,28 @@
 
 /* ===========================
    REVEAL ANIMATIONS
+   Content stays visible without JS (Safari / CSP-safe).
    =========================== */
 .reveal {
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.65s ease;
   transition-delay: var(--delay, 0s);
 }
 
-.reveal.is-visible {
-  opacity: 1;
-}
+.reveal[data-reveal-delay=".05s"] { --delay: 0.05s; }
+.reveal[data-reveal-delay=".1s"] { --delay: 0.1s; }
+.reveal[data-reveal-delay=".15s"] { --delay: 0.15s; }
+.reveal[data-reveal-delay=".2s"] { --delay: 0.2s; }
+.reveal[data-reveal-delay=".3s"] { --delay: 0.3s; }
+.reveal[data-reveal-delay="000ms"] { --delay: 0s; }
+.reveal[data-reveal-delay="100ms"] { --delay: 0.1s; }
+.reveal[data-reveal-delay="200ms"] { --delay: 0.2s; }
+.reveal[data-reveal-delay="300ms"] { --delay: 0.3s; }
+.reveal[data-reveal-delay="400ms"] { --delay: 0.4s; }
+.reveal[data-reveal-delay="500ms"] { --delay: 0.5s; }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal {
-    opacity: 1;
     transition: none;
   }
 }
@@ -855,6 +868,16 @@ body.menu-open {
 
 .marking-category .section-title { margin-top: 0.5rem; }
 
+.marking-category + .laser-section {
+  padding-top: 2rem;
+}
+
+@media (min-width: 768px) {
+  .marking-category + .laser-section {
+    padding-top: 3rem;
+  }
+}
+
 .marking-models { margin-top: 1.5rem; }
 .marking-models .label { margin-bottom: 0.75rem; }
 
@@ -1018,14 +1041,15 @@ body.menu-open {
 .card-carousel {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: auto;
   isolation: isolate;
 }
 
 .card-carousel__viewport {
   overflow: hidden;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 4 / 3;
+  height: auto;
   touch-action: pan-y;
   -webkit-overflow-scrolling: touch;
 }
@@ -1033,6 +1057,7 @@ body.menu-open {
 .card-carousel__track {
   display: flex;
   height: 100%;
+  min-height: 100%;
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
 }
@@ -1040,13 +1065,15 @@ body.menu-open {
 .card-carousel__slide {
   flex: 0 0 100%;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
+  height: auto;
   margin: 0;
 }
 
 .card-carousel__slide img {
   width: 100%;
   height: 100%;
+  min-height: 100%;
   object-fit: cover;
 }
 
