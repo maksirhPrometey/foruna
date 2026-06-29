@@ -80,6 +80,16 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+section[id] {
+  scroll-margin-top: calc(var(--header-h) + env(safe-area-inset-top, 0px) + 1rem);
+}
+
 body {
   font-family: var(--ff-body);
   font-size: 1rem;
@@ -118,5 +128,6 @@ address { font-style: normal; }
 }
 
 .skip-link:focus {
-  top: 0;
+  top: env(safe-area-inset-top, 0px);
+  left: max(1rem, env(safe-area-inset-left, 0px));
 }

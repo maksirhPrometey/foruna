@@ -23,7 +23,8 @@
         <h2 class="subsection-title display">{{ site.company_name }}</h2>
         <p class="body-lg">{{ contacts.intro_text }}</p>
 
-        <address class="contacts-details">
+        <address>
+          <dl class="contacts-details">
           {% if site.phone_1 %}
             <div class="contact-detail">
               <dt class="label">Телефон</dt>
@@ -53,6 +54,7 @@
               <dd><a href="{{ site.website }}" target="_blank" rel="noopener noreferrer">{{ site.website }}</a></dd>
             </div>
           {% endif %}
+          </dl>
         </address>
 
         <div class="contacts-directions">

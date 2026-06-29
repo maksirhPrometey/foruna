@@ -1,8 +1,0 @@
-<div class="section-header reveal">
-  {% if section.header_style == 'numbered' %}
-    <p class="label">{% if section.section_number %}{{ section.section_number }}{% elif section.section_label %}{{ section.section_label }}{% endif %}</p>
-  {% elif section.section_label %}
-    <p class="label label-gold">{{ section.section_label }}</p>
-  {% endif %}
-  <h2 class="subsection-title display" id="section-{{ section.slug }}-title">{{ section.title }}</h2>
-</div>

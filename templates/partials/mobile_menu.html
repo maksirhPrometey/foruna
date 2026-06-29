@@ -9,8 +9,8 @@
       </svg>
     </button>
 
-    <a href="{% url 'core:home' %}" class="mobile-menu__logo">
-      <img src="{% static 'images/logo-light.svg' %}" alt="FortunaPrint" width="140" height="40" loading="lazy">
+    <a href="{% url 'core:home' %}" class="mobile-menu__logo" aria-label="{{ site.company_name }} — головна">
+      <img src="{% static 'images/logo-light.svg' %}" alt="{{ site.company_name }}" width="140" height="40" loading="lazy">
     </a>
 
     <ul class="mobile-menu__list" role="list">
@@ -22,9 +22,15 @@
       <li><a href="{% url 'core:contacts' %}" class="mobile-menu__link">Контакти</a></li>
     </ul>
 
-    <div class="mobile-menu__contacts">
-      <a href="tel:+380503349262" class="mobile-menu__phone">+38 050 334 9262</a>
-      <a href="tel:+380664241553" class="mobile-menu__phone">+38 066 424 1553</a>
-    </div>
+    {% if site.phone_1 or site.phone_2 %}
+      <div class="mobile-menu__contacts">
+        {% if site.phone_1 %}
+          <a href="tel:{{ site.phone_1|cut:' ' }}" class="mobile-menu__phone">{{ site.phone_1 }}</a>
+        {% endif %}
+        {% if site.phone_2 %}
+          <a href="tel:{{ site.phone_2|cut:' ' }}" class="mobile-menu__phone">{{ site.phone_2 }}</a>
+        {% endif %}
+      </div>
+    {% endif %}
   </nav>
 </div>

@@ -1,0 +1,91 @@
+{% load site_tags %}
+<section class="laser-section {% if light %}bg-light{% endif %} section-pad"
+         id="{{ section_id }}"
+         aria-labelledby="{{ title_id }}">
+  <div class="container">
+    <div class="laser-grid {% if reverse %}laser-grid--reverse{% endif %}">
+      <div class="laser-grid__image reveal">
+        {% include "partials/product_media.html" with product=product frame_class="laser-img" show_placeholder=True placeholder_class="laser-img--placeholder" placeholder_icon=placeholder_icon|default:"" %}
+      </div>
+      <div class="laser-grid__content reveal" data-reveal-delay=".1s">
+        {% if label %}<p class="label">{{ label }}</p>{% endif %}
+        <h3 class="subsection-title display" id="{{ title_id }}">{{ product.title }}</h3>
+        {% if product.subtitle %}
+          <p class="body-lg laser-subtitle">{{ product.subtitle }}</p>
+        {% endif %}
+        {% if product.description %}
+          <div class="body-md prose-content">{{ product.description|linebreaksbr }}</div>
+        {% endif %}
+
+        {% if product.model_numbers %}
+          <div class="marking-models">
+            <p class="label">Моделі</p>
+            <div class="model-tags">
+              {% for m in product.get_model_numbers_list %}
+                <span class="model-tag">{{ m }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        {% if product.variants %}
+          <div class="marking-models">
+            <p class="label">Варіанти</p>
+            <div class="model-tags">
+              {% for v in product.get_variants_list %}
+                <span class="model-tag">{{ v }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        {% if product.wavelength or product.power_range or product.marking_speed %}
+          <dl class="laser-specs">
+            {% if product.wavelength %}
+              <div class="laser-specs__item">
+                <dt>Довжина хвилі</dt>
+                <dd>{{ product.wavelength }}</dd>
+              </div>
+            {% endif %}
+            {% if product.power_range %}
+              <div class="laser-specs__item">
+                <dt>Потужність</dt>
+                <dd>{{ product.power_range }}</dd>
+              </div>
+            {% endif %}
+            {% if product.marking_speed %}
+              <div class="laser-specs__item">
+                <dt>Швидкість</dt>
+                <dd>{{ product.marking_speed }}</dd>
+              </div>
+            {% endif %}
+          </dl>
+        {% endif %}
+
+        {% with specs=product.get_specs_list %}
+          {% if specs %}
+            <ul class="feature-list" role="list">
+              {% for spec in specs %}<li>{{ spec }}</li>{% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        {% if product.applications %}
+          {% with apps=product.get_applications_list %}
+            <div class="laser-apps">
+              <p class="label">Сфери застосування</p>
+              <ul class="feature-list" role="list">
+                {% for app in apps %}<li>{{ app }}</li>{% endfor %}
+              </ul>
+            </div>
+          {% endwith %}
+        {% endif %}
+
+        {% if show_brochure %}
+          {% laser_brochure_url product as brochure_url %}
+          {% include "partials/laser_brochure.html" with brochure_url=brochure_url %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
