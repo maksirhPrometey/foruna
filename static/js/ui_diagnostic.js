@@ -71,8 +71,16 @@
     add(height >= 120 ? 'ok' : 'fail', 'Висота тест-каруселі', `${height}px (очікується ≥120px)`);
   }
 
-  const menuOpen = document.body.classList.contains('menu-open');
-  add(menuOpen ? 'fail' : 'ok', 'body.menu-open (scroll lock)', menuOpen ? 'застряг — меню не закрилось' : 'немає');
+  const menuOpen = document.documentElement.classList.contains('menu-open')
+    || document.body.classList.contains('menu-open');
+  const menuVisible = document.querySelector('.mobile-menu.is-open');
+  add(
+    menuOpen || menuVisible ? 'fail' : 'ok',
+    'Меню / scroll lock',
+    menuOpen || menuVisible
+      ? 'застрягло — темний фон перекриває сторінку'
+      : 'закрито',
+  );
 
   let cspBlocksInline = false;
   try {

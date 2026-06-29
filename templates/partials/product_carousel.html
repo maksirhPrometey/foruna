@@ -1,7 +1,7 @@
 {% load site_tags %}
 <div class="card-carousel" data-card-carousel>
   <div class="card-carousel__viewport" data-carousel-viewport>
-    <div class="card-carousel__track" data-carousel-track>
+    <div class="card-carousel__track" data-carousel-track data-active="0">
       {% for image in images %}
         <figure class="card-carousel__slide img-frame{% if frame_class %} {{ frame_class }}{% endif %}" data-carousel-slide{% if not forloop.first %} aria-hidden="true"{% endif %}>
           <img src="{% content_image_url image.path %}" alt="{{ image.alt }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">

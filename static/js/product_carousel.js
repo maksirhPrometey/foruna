@@ -3,9 +3,7 @@
 
   const goToSlide = (track, slides, dots, index, total) => {
     const next = (index + total) % total;
-    const offset = next * 100;
-    track.style.transform = `translate3d(-${offset}%, 0, 0)`;
-    track.style.webkitTransform = `translate3d(-${offset}%, 0, 0)`;
+    track.dataset.active = String(next);
 
     dots.forEach((dot, dotIndex) => {
       const active = dotIndex === next;

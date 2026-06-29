@@ -22,9 +22,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
-  <link rel="stylesheet" href="{% static 'css/typography.css' %}">
-  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/tokens.css' %}?v={{ static_version }}">
+  <link rel="stylesheet" href="{% static 'css/typography.css' %}?v={{ static_version }}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}?v={{ static_version }}">
   {% block extra_css %}{% endblock %}
 
   <script type="application/ld+json">
@@ -57,12 +57,12 @@
 
   {% include "partials/footer.html" %}
 
-  <script src="{% static 'django_htmx/htmx.min.js' %}" defer></script>
-  <script src="{% static 'js/header.js' %}" defer></script>
-  <script src="{% static 'js/mobile_menu.js' %}" defer></script>
-  <script src="{% static 'js/reveal.js' %}" defer></script>
-  <script src="{% static 'js/forms.js' %}" defer></script>
-  <script src="{% static 'js/product_carousel.js' %}" defer></script>
+  <script src="{% static 'django_htmx/htmx.min.js' %}?v={{ static_version }}" defer></script>
+  <script src="{% static 'js/header.js' %}?v={{ static_version }}" defer></script>
+  <script src="{% static 'js/mobile_menu.js' %}?v={{ static_version }}" defer></script>
+  <script src="{% static 'js/reveal.js' %}?v={{ static_version }}" defer></script>
+  <script src="{% static 'js/forms.js' %}?v={{ static_version }}" defer></script>
+  <script src="{% static 'js/product_carousel.js' %}?v={{ static_version }}" defer></script>
   {% block extra_js %}{% endblock %}
 </body>
 </html>

@@ -264,17 +264,20 @@
   position: fixed;
   inset: 0;
   z-index: var(--z-drawer);
+  visibility: hidden;
   pointer-events: none;
 }
 
-.mobile-menu.is-open { pointer-events: auto; }
+.mobile-menu.is-open {
+  visibility: visible;
+  pointer-events: auto;
+}
 
-body.menu-open {
+html.menu-open,
+html.menu-open body {
   overflow: hidden;
-  position: fixed;
-  width: 100%;
-  left: 0;
-  right: 0;
+  overscroll-behavior: none;
+  touch-action: manipulation;
 }
 
 .mobile-menu__backdrop {
@@ -1058,9 +1061,30 @@ body.menu-open {
   display: flex;
   height: 100%;
   min-height: 100%;
+  transform: translate3d(0, 0, 0);
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
 }
+
+.card-carousel__track[data-active="1"] { transform: translate3d(-100%, 0, 0); }
+.card-carousel__track[data-active="2"] { transform: translate3d(-200%, 0, 0); }
+.card-carousel__track[data-active="3"] { transform: translate3d(-300%, 0, 0); }
+.card-carousel__track[data-active="4"] { transform: translate3d(-400%, 0, 0); }
+.card-carousel__track[data-active="5"] { transform: translate3d(-500%, 0, 0); }
+.card-carousel__track[data-active="6"] { transform: translate3d(-600%, 0, 0); }
+.card-carousel__track[data-active="7"] { transform: translate3d(-700%, 0, 0); }
+.card-carousel__track[data-active="8"] { transform: translate3d(-800%, 0, 0); }
+.card-carousel__track[data-active="9"] { transform: translate3d(-900%, 0, 0); }
+.card-carousel__track[data-active="10"] { transform: translate3d(-1000%, 0, 0); }
+.card-carousel__track[data-active="11"] { transform: translate3d(-1100%, 0, 0); }
+.card-carousel__track[data-active="12"] { transform: translate3d(-1200%, 0, 0); }
+.card-carousel__track[data-active="13"] { transform: translate3d(-1300%, 0, 0); }
+.card-carousel__track[data-active="14"] { transform: translate3d(-1400%, 0, 0); }
+.card-carousel__track[data-active="15"] { transform: translate3d(-1500%, 0, 0); }
+.card-carousel__track[data-active="16"] { transform: translate3d(-1600%, 0, 0); }
+.card-carousel__track[data-active="17"] { transform: translate3d(-1700%, 0, 0); }
+.card-carousel__track[data-active="18"] { transform: translate3d(-1800%, 0, 0); }
+.card-carousel__track[data-active="19"] { transform: translate3d(-1900%, 0, 0); }
 
 .card-carousel__slide {
   flex: 0 0 100%;

@@ -3,6 +3,7 @@
   const openBtn = document.querySelector('[data-menu-open]');
   const closeBtns = document.querySelectorAll('[data-menu-close]');
   const panel = menu?.querySelector('.mobile-menu__panel');
+  const root = document.documentElement;
 
   if (!menu || !panel) return;
 
@@ -17,15 +18,29 @@
     )
   );
 
+  const forceClose = ({ restoreFocus = false } = {}) => {
+    menu.classList.remove('is-open');
+    menu.setAttribute('aria-hidden', 'true');
+    root.classList.remove('menu-open');
+    document.body.classList.remove('menu-open');
+    document.body.style.top = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    openBtn?.setAttribute('aria-expanded', 'false');
+
+    if (restoreFocus && !coarsePointer.matches) {
+      openBtn?.focus();
+    }
+  };
+
   const lockScroll = () => {
-    scrollY = window.scrollY || document.documentElement.scrollTop || 0;
-    document.body.style.top = `-${scrollY}px`;
-    document.body.classList.add('menu-open');
+    scrollY = window.scrollY || root.scrollTop || 0;
+    root.classList.add('menu-open');
   };
 
   const unlockScroll = () => {
+    root.classList.remove('menu-open');
     document.body.classList.remove('menu-open');
-    document.body.style.top = '';
     window.scrollTo(0, scrollY);
   };
 
@@ -44,10 +59,8 @@
   };
 
   const close = ({ restoreFocus = true } = {}) => {
-    menu.classList.remove('is-open');
-    menu.setAttribute('aria-hidden', 'true');
+    forceClose({ restoreFocus: false });
     unlockScroll();
-    openBtn?.setAttribute('aria-expanded', 'false');
 
     if (restoreFocus && !coarsePointer.matches) {
       openBtn?.focus();
@@ -79,6 +92,18 @@
       first.focus();
     }
   };
+
+  forceClose();
+
+  window.addEventListener('pageshow', () => {
+    forceClose();
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      forceClose();
+    }
+  });
 
   openBtn?.addEventListener('click', open);
   closeBtns.forEach((btn) => btn.addEventListener('click', () => close()));
