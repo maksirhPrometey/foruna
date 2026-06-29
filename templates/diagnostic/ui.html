@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
   <title>Діагностика UI — FortunaPrint</title>
-  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
-  <link rel="stylesheet" href="{% static 'css/components.css' %}">
-  <link rel="stylesheet" href="{% static 'css/ui_diagnostic.css' %}">
+  <link rel="stylesheet" href="{% static 'css/tokens.css' %}?v={{ static_version }}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}?v={{ static_version }}">
+  <link rel="stylesheet" href="{% static 'css/ui_diagnostic.css' %}?v={{ static_version }}">
 </head>
 <body class="ui-probe">
   <div class="ui-probe__wrap">
@@ -65,6 +65,6 @@
     </div>
   </div>
 
-  <script src="{% static 'js/ui_diagnostic.js' %}" defer></script>
+  <script src="{% static 'js/ui_diagnostic.js' %}?v={{ static_version }}" defer></script>
 </body>
 </html>

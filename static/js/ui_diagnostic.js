@@ -32,119 +32,136 @@
     )).join('');
   };
 
-  add('ok', 'User-Agent', navigator.userAgent);
-  add(
-    window.visualViewport ? 'ok' : 'warn',
-    'Viewport',
-    `${window.innerWidth}×${window.innerHeight}px`
-      + (window.visualViewport
-        ? ` (visual ${Math.round(window.visualViewport.width)}×${Math.round(window.visualViewport.height)})`
-        : ''),
+  const stylesheetLinks = () => (
+    [...document.querySelectorAll('link[rel="stylesheet"]')].map((link) => link.href || link.getAttribute('href') || '')
   );
 
-  const coarse = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-  add('ok', 'Touch-пристрій', coarse ? 'так (iPhone/iPad)' : 'ні (desktop)');
+  const runBrowserChecks = () => {
+    rows.length = 0;
 
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  add(reduced ? 'warn' : 'ok', 'prefers-reduced-motion', reduced ? 'увімкнено' : 'вимкнено');
+    add('ok', 'User-Agent', navigator.userAgent);
+    add(
+      window.visualViewport ? 'ok' : 'warn',
+      'Viewport',
+      `${window.innerWidth}×${window.innerHeight}px`
+        + (window.visualViewport
+          ? ` (visual ${Math.round(window.visualViewport.width)}×${Math.round(window.visualViewport.height)})`
+          : ''),
+    );
 
-  const stylesheets = [...document.styleSheets].map((sheet) => {
-    try {
-      return sheet.href || '[inline]';
-    } catch {
-      return '[blocked]';
+    const coarse = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    add('ok', 'Touch-пристрій', coarse ? 'так (iPhone/iPad)' : 'ні (desktop)');
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    add(reduced ? 'warn' : 'ok', 'prefers-reduced-motion', reduced ? 'увімкнено' : 'вимкнено');
+
+    const cssLinks = stylesheetLinks();
+    const componentsLink = cssLinks.find((href) => href.includes('components.css'));
+    add(
+      componentsLink ? 'ok' : 'fail',
+      '<link> components.css у DOM',
+      componentsLink || cssLinks.join(', ') || 'немає stylesheet link',
+    );
+
+    const viewportProbe = document.querySelector('.probe-carousel .card-carousel__viewport');
+    if (viewportProbe) {
+      const styles = getComputedStyle(viewportProbe);
+      const rect = viewportProbe.getBoundingClientRect();
+      const height = Math.round(rect.height);
+      const ratio = styles.aspectRatio;
+      const ratioOk = ratio && ratio !== 'auto' && ratio !== '0 / 1';
+      add(
+        ratioOk ? 'ok' : 'fail',
+        'Computed aspect-ratio viewport',
+        ratioOk ? ratio : (ratio || 'не застосовано'),
+      );
+      add(
+        height >= 120 ? 'ok' : 'fail',
+        'Висота viewport каруселі',
+        `${height}px (очікується ≥120px)`,
+      );
     }
+
+    const revealEl = document.querySelector('.probe-reveal.reveal');
+    if (revealEl) {
+      const opacity = getComputedStyle(revealEl).opacity;
+      add(Number(opacity) >= 0.99 ? 'ok' : 'fail', 'Computed opacity .reveal', opacity);
+    }
+
+    const menuOpen = document.documentElement.classList.contains('menu-open')
+      || document.body.classList.contains('menu-open');
+    const menuVisible = document.querySelector('.mobile-menu.is-open');
+    add(
+      menuOpen || menuVisible ? 'fail' : 'ok',
+      'Меню / scroll lock',
+      menuOpen || menuVisible
+        ? 'застрягло — темний фон перекриває сторінку'
+        : 'закрито',
+    );
+
+    let cspBlocksInline = false;
+    try {
+      const probe = document.createElement('span');
+      probe.style.setProperty('color', 'red');
+      cspBlocksInline = probe.style.color !== 'red' && probe.style.color !== 'rgb(255, 0, 0)';
+    } catch {
+      cspBlocksInline = true;
+    }
+    add(
+      cspBlocksInline ? 'warn' : 'ok',
+      'CSP + inline style (JS)',
+      cspBlocksInline ? 'блокує setProperty' : 'дозволяє inline',
+    );
+
+    render();
+  };
+
+  const runNetworkChecks = () => {
+    fetch('/static/css/components.css', { cache: 'no-store' })
+      .then((response) => {
+        add(response.ok ? 'ok' : 'fail', 'GET /static/css/components.css', `HTTP ${response.status}`);
+        return response.text();
+      })
+      .then((css) => {
+        const flat = css.replace(/\s+/g, ' ');
+        add(
+          /\.reveal\s*\{[^}]*opacity:\s*1/.test(flat) ? 'ok' : 'fail',
+          'CSS на сервері: .reveal opacity:1',
+          /\.reveal\s*\{[^}]*opacity:\s*1/.test(flat) ? 'так' : 'ні',
+        );
+        add(
+          /\.card-carousel\s*\{[^}]*height:\s*auto/.test(flat) ? 'ok' : 'fail',
+          'CSS на сервері: carousel height:auto',
+          /\.card-carousel\s*\{[^}]*height:\s*auto/.test(flat) ? 'так' : 'ні',
+        );
+      })
+      .catch((error) => {
+        add('fail', 'GET components.css', String(error));
+      })
+      .finally(render);
+
+    fetch('/marking/', { cache: 'no-store' })
+      .then((response) => response.text())
+      .then((html) => {
+        add(
+          (html.match(/class="laser-section/g) || []).length > 0 ? 'ok' : 'fail',
+          'HTML /marking/ — laser-section',
+          `${(html.match(/class="laser-section/g) || []).length} секцій`,
+        );
+        add(
+          (html.match(/data-card-carousel/g) || []).length > 0 ? 'ok' : 'warn',
+          'HTML /marking/ — каруселі',
+          `${(html.match(/data-card-carousel/g) || []).length} шт.`,
+        );
+      })
+      .catch((error) => {
+        add('fail', 'GET /marking/', String(error));
+      })
+      .finally(render);
+  };
+
+  window.addEventListener('load', () => {
+    runBrowserChecks();
+    runNetworkChecks();
   });
-  const hasComponents = stylesheets.some((href) => href.includes('components.css'));
-  add(hasComponents ? 'ok' : 'fail', 'components.css у document.styleSheets', hasComponents ? 'завантажено' : 'не знайдено');
-
-  const revealEl = document.querySelector('.probe-reveal.reveal');
-  if (revealEl) {
-    const opacity = getComputedStyle(revealEl).opacity;
-    add(Number(opacity) >= 0.99 ? 'ok' : 'fail', 'Computed opacity .reveal', opacity);
-  }
-
-  const carouselEl = document.querySelector('.probe-carousel');
-  if (carouselEl) {
-    const rect = carouselEl.getBoundingClientRect();
-    const height = Math.round(rect.height);
-    add(height >= 120 ? 'ok' : 'fail', 'Висота тест-каруселі', `${height}px (очікується ≥120px)`);
-  }
-
-  const menuOpen = document.documentElement.classList.contains('menu-open')
-    || document.body.classList.contains('menu-open');
-  const menuVisible = document.querySelector('.mobile-menu.is-open');
-  add(
-    menuOpen || menuVisible ? 'fail' : 'ok',
-    'Меню / scroll lock',
-    menuOpen || menuVisible
-      ? 'застрягло — темний фон перекриває сторінку'
-      : 'закрито',
-  );
-
-  let cspBlocksInline = false;
-  try {
-    const probe = document.createElement('span');
-    probe.style.setProperty('color', 'red');
-    cspBlocksInline = probe.style.color !== 'red' && probe.style.color !== 'rgb(255, 0, 0)';
-  } catch {
-    cspBlocksInline = true;
-  }
-  add(
-    cspBlocksInline ? 'warn' : 'ok',
-    'CSP + inline style (JS)',
-    cspBlocksInline ? 'блокує setProperty — OK для безпеки' : 'дозволяє inline',
-  );
-
-  render();
-
-  fetch('/static/css/components.css', { cache: 'no-store' })
-    .then((response) => {
-      add(response.ok ? 'ok' : 'fail', 'GET /static/css/components.css', `HTTP ${response.status}`);
-      return response.text();
-    })
-    .then((css) => {
-      const revealFixed = /\.reveal\s*\{[^}]*opacity:\s*1/.test(css.replace(/\s+/g, ' '));
-      add(
-        revealFixed ? 'ok' : 'fail',
-        'CSS на сервері: .reveal opacity:1',
-        revealFixed ? 'так (новий фікс)' : 'ні (старий CSS — кеш або не задеплоєно)',
-      );
-
-      const carouselFixed = /\.card-carousel\s*\{[^}]*height:\s*auto/.test(css.replace(/\s+/g, ' '));
-      add(
-        carouselFixed ? 'ok' : 'fail',
-        'CSS на сервері: carousel height:auto',
-        carouselFixed ? 'так' : 'ні',
-      );
-    })
-    .catch((error) => {
-      add('fail', 'GET components.css', String(error));
-    })
-    .finally(() => {
-      render();
-    });
-
-  fetch('/marking/', { cache: 'no-store' })
-    .then((response) => response.text())
-    .then((html) => {
-      const sections = (html.match(/class="laser-section/g) || []).length;
-      const carousels = (html.match(/data-card-carousel/g) || []).length;
-      add(
-        sections > 0 ? 'ok' : 'fail',
-        'HTML /marking/ — laser-section',
-        `${sections} секцій`,
-      );
-      add(
-        carousels > 0 ? 'ok' : 'warn',
-        'HTML /marking/ — каруселі',
-        `${carousels} шт.`,
-      );
-    })
-    .catch((error) => {
-      add('fail', 'GET /marking/', String(error));
-    })
-    .finally(() => {
-      render();
-    });
 })();
