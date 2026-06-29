@@ -73,6 +73,9 @@ class QualityControlView(TemplateView):
         ctx['metal_detectors'] = _with_gallery(
             QualityProduct.objects.filter(category='metal_detector', is_active=True)
         )
+        ctx['xray_products'] = _with_gallery(
+            QualityProduct.objects.filter(category='xray', is_active=True)
+        )
         ctx['xray_gallery'] = [
             {'path': img.image.name, 'alt': img.alt_text or 'Рентгенівський інспектор FOODMAN'}
             for img in GalleryImage.objects.filter(gallery='xray_foodman').order_by('ordering')

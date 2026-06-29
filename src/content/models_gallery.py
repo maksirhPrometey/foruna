@@ -26,6 +26,23 @@ class ProductGalleryImage(models.Model):
     def __str__(self) -> str:
         return f'Фото #{self.ordering} — {self.image.name}'
 
+    def save(self, *args, **kwargs):
+        if (
+            self.ordering == 0
+            and self.content_type_id
+            and self.object_id
+        ):
+            siblings = ProductGalleryImage.objects.filter(
+                content_type_id=self.content_type_id,
+                object_id=self.object_id,
+            )
+            if self.pk:
+                siblings = siblings.exclude(pk=self.pk)
+            last = siblings.order_by('-ordering').values_list('ordering', flat=True).first()
+            if last is not None:
+                self.ordering = last + 1
+        super().save(*args, **kwargs)
+
 
 GALLERY_RELATION = GenericRelation(
     'content.ProductGalleryImage',

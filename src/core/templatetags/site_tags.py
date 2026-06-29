@@ -81,7 +81,8 @@ def get_product_images(product) -> list[dict[str, str]]:
 
     gallery = getattr(product, 'gallery_images', None)
     if gallery is not None:
-        for item in gallery.all():
+        items = sorted(gallery.all(), key=lambda item: (item.ordering, item.pk))
+        for item in items:
             if item.image.name and item.image.name not in seen:
                 images.append({
                     'path': item.image.name,

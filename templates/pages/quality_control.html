@@ -169,7 +169,30 @@
       </div>
     {% endif %}
 
-    {% if xray_gallery %}
+    {% if xray_products %}
+      {% for prod in xray_products %}
+        <div class="laser-grid reveal" data-reveal-delay=".1s">
+          <div class="laser-grid__image reveal">
+            {% include "partials/product_media.html" with product=prod frame_class="laser-img" show_placeholder=True placeholder_class="laser-img--placeholder" %}
+          </div>
+          <div class="laser-grid__content reveal" data-reveal-delay=".15s">
+            <p class="label">{{ prod.get_category_display }}</p>
+            <h3 class="subsection-title display">{{ prod.title }}</h3>
+            {% if prod.subtitle %}
+              <p class="body-lg laser-subtitle">{{ prod.subtitle }}</p>
+            {% endif %}
+            <div class="body-md prose-content">{{ prod.description|linebreaksbr }}</div>
+            {% with features=prod.get_features_list %}
+              {% if features %}
+                <ul class="feature-list" role="list">
+                  {% for item in features %}<li>{{ item }}</li>{% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+          </div>
+        </div>
+      {% endfor %}
+    {% elif xray_gallery %}
       <div class="reveal" data-reveal-delay=".1s">
         {% include "partials/product_gallery.html" with images=xray_gallery gallery_label="Рентгенівські інспектори FOODMAN" gallery_alt="Рентгенівський інспектор FOODMAN" %}
       </div>
