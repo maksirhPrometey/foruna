@@ -4,10 +4,10 @@
          aria-labelledby="{{ title_id }}">
   <div class="container">
     <div class="laser-grid {% if reverse %}laser-grid--reverse{% endif %}">
-      <div class="laser-grid__image reveal">
+      <div class="laser-grid__image">
         {% include "partials/product_media.html" with product=product frame_class="laser-img" show_placeholder=True placeholder_class="laser-img--placeholder" placeholder_icon=placeholder_icon|default:"" %}
       </div>
-      <div class="laser-grid__content reveal" data-reveal-delay=".1s">
+      <div class="laser-grid__content">
         {% if label %}<p class="label">{{ label }}</p>{% endif %}
         <h3 class="subsection-title display" id="{{ title_id }}">{{ product.title }}</h3>
         {% if product.subtitle %}
