@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Діагностика UI — FortunaPrint</title>
+  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/ui_diagnostic.css' %}">
+</head>
+<body class="ui-probe">
+  <div class="ui-probe__wrap">
+    <h1 class="ui-probe__title">Діагностика Safari / мобільної верстки</h1>
+    <p class="ui-probe__hint">
+      Відкрийте цю сторінку на iPhone у звичайному Safari (не Reader).
+      Зробіть скріншот блоків «Сервер» і «Браузер» — по FAIL видно причину.
+    </p>
+
+    <section class="ui-probe__section" aria-labelledby="ui-probe-server-title">
+      <h2 id="ui-probe-server-title">Сервер (Django)</h2>
+      <div class="ui-probe__list">
+        {% for row in server_rows %}
+          <div class="ui-probe__row">
+            <span class="ui-probe__badge ui-probe__badge--{{ row.status }}">{{ row.badge }}</span>
+            <div>
+              <div class="ui-probe__label">{{ row.label }}</div>
+              <div class="ui-probe__value">{{ row.value }}</div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="ui-probe__section" aria-labelledby="ui-probe-client-title">
+      <h2 id="ui-probe-client-title">Браузер (ваш iPhone / Safari)</h2>
+      <div class="ui-probe__list" id="ui-probe-client">
+        <div class="ui-probe__row">
+          <span class="ui-probe__badge ui-probe__badge--wait">…</span>
+          <div>
+            <div class="ui-probe__label">Завантаження перевірок</div>
+            <div class="ui-probe__value">зачекайте 1–2 сек</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-probe__fixture" aria-hidden="true">
+        <div class="probe-carousel card-carousel">
+          <div class="card-carousel__viewport">
+            <div class="card-carousel__track">
+              <figure class="card-carousel__slide probe-carousel__slide img-frame laser-img">
+                <span>Тест каруселі 4:3</span>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <p class="probe-reveal reveal is-visible">Тестовий блок .reveal — має бути видимим</p>
+      </div>
+    </section>
+
+    <div class="ui-probe__actions">
+      <a class="ui-probe__link" href="/marking/">Відкрити /marking/</a>
+      <a class="ui-probe__link" href="/healthz/deploy/">JSON deploy</a>
+    </div>
+  </div>
+
+  <script src="{% static 'js/ui_diagnostic.js' %}" defer></script>
+</body>
+</html>
