@@ -123,12 +123,11 @@ class QualityProductAdmin(_ImageAdminMixin, ModelAdmin):
     list_display = ['image_preview', 'category', 'title', 'ordering', 'is_active']
     list_editable = ['ordering', 'is_active']
     list_filter = ['category', 'is_active']
-    prepopulated_fields = {'slug': ('title',)}
     ordering = ['category', 'ordering']
     fieldsets = [
         ('Основне', {
             'fields': [
-                'category', 'title', 'slug', 'subtitle', 'description',
+                'category', 'title', 'subtitle', 'description',
                 'image', 'image_preview_detail', 'is_active', 'ordering',
             ],
         }),

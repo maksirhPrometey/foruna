@@ -1,7 +1,7 @@
 from django.db import models
-from django.utils.text import slugify
 
 from src.content.models_gallery import GALLERY_RELATION
+from src.content.slugs import slug_needs_latin, unique_latin_slug
 
 
 # ---------------------------------------------------------------------------
@@ -433,7 +433,9 @@ class QualityProduct(models.Model):
     ]
     category = models.CharField('Категорія', max_length=20, choices=CATEGORY_CHOICES)
     title = models.CharField('Назва', max_length=160)
-    slug = models.SlugField('Slug', unique=True, blank=True, max_length=200)
+    slug = models.SlugField(
+        'Slug (латиниця, автоматично)', unique=True, blank=True, max_length=200,
+    )
     subtitle = models.CharField('Підзаголовок', max_length=255, blank=True)
     description = models.TextField('Опис')
     image = models.ImageField('Зображення', upload_to='quality/', blank=True, null=True)
@@ -451,8 +453,13 @@ class QualityProduct(models.Model):
         return f'{self.get_category_display()} — {self.title}'
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title, allow_unicode=True)
+        if not self.slug or slug_needs_latin(self.slug):
+            self.slug = unique_latin_slug(
+                self.__class__,
+                self.title,
+                category=self.category,
+                instance_pk=self.pk,
+            )
         super().save(*args, **kwargs)
 
     def get_features_list(self) -> list[str]:
