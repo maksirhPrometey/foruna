@@ -1,6 +1,25 @@
 (() => {
   const SWIPE_THRESHOLD = 48;
 
+  const goToSlide = (track, slides, dots, index, total) => {
+    const next = (index + total) % total;
+    const offset = next * 100;
+    track.style.transform = `translate3d(-${offset}%, 0, 0)`;
+    track.style.webkitTransform = `translate3d(-${offset}%, 0, 0)`;
+
+    dots.forEach((dot, dotIndex) => {
+      const active = dotIndex === next;
+      dot.classList.toggle('is-active', active);
+      dot.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+
+    slides.forEach((slide, slideIndex) => {
+      slide.setAttribute('aria-hidden', slideIndex === next ? 'false' : 'true');
+    });
+
+    return next;
+  };
+
   document.querySelectorAll('[data-card-carousel]').forEach((root) => {
     const track = root.querySelector('[data-carousel-track]');
     const slides = root.querySelectorAll('[data-carousel-slide]');
@@ -21,25 +40,25 @@
     let isDragging = false;
 
     const goTo = (nextIndex) => {
-      index = (nextIndex + total) % total;
-      track.style.transform = `translate3d(-${index * 100}%, 0, 0)`;
-
-      dots.forEach((dot, dotIndex) => {
-        const active = dotIndex === index;
-        dot.classList.toggle('is-active', active);
-        dot.setAttribute('aria-selected', active ? 'true' : 'false');
-      });
-
-      slides.forEach((slide, slideIndex) => {
-        slide.setAttribute('aria-hidden', slideIndex === index ? 'false' : 'true');
-      });
+      index = goToSlide(track, slides, dots, nextIndex, total);
     };
 
-    prevBtn?.addEventListener('click', () => goTo(index - 1));
-    nextBtn?.addEventListener('click', () => goTo(index + 1));
+    const onPrev = (event) => {
+      event.preventDefault();
+      goTo(index - 1);
+    };
+
+    const onNext = (event) => {
+      event.preventDefault();
+      goTo(index + 1);
+    };
+
+    prevBtn?.addEventListener('click', onPrev);
+    nextBtn?.addEventListener('click', onNext);
 
     dots.forEach((dot) => {
-      dot.addEventListener('click', () => {
+      dot.addEventListener('click', (event) => {
+        event.preventDefault();
         const target = Number.parseInt(dot.dataset.carouselDot, 10);
         if (!Number.isNaN(target)) {
           goTo(target);

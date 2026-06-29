@@ -7,6 +7,7 @@
   if (!menu || !panel) return;
 
   const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  const coarsePointer = window.matchMedia('(hover: none) and (pointer: coarse)');
 
   let scrollY = 0;
 
@@ -17,7 +18,7 @@
   );
 
   const lockScroll = () => {
-    scrollY = window.scrollY;
+    scrollY = window.scrollY || document.documentElement.scrollTop || 0;
     document.body.style.top = `-${scrollY}px`;
     document.body.classList.add('menu-open');
   };
@@ -34,18 +35,23 @@
     lockScroll();
     openBtn?.setAttribute('aria-expanded', 'true');
 
-    const focusables = getFocusables();
-    requestAnimationFrame(() => {
-      (focusables[0] || panel.querySelector('.mobile-menu__close'))?.focus();
-    });
+    if (!coarsePointer.matches) {
+      const focusables = getFocusables();
+      requestAnimationFrame(() => {
+        (focusables[0] || panel.querySelector('.mobile-menu__close'))?.focus();
+      });
+    }
   };
 
-  const close = () => {
+  const close = ({ restoreFocus = true } = {}) => {
     menu.classList.remove('is-open');
     menu.setAttribute('aria-hidden', 'true');
     unlockScroll();
     openBtn?.setAttribute('aria-expanded', 'false');
-    openBtn?.focus();
+
+    if (restoreFocus && !coarsePointer.matches) {
+      openBtn?.focus();
+    }
   };
 
   const onKeydown = (e) => {
@@ -56,7 +62,7 @@
       return;
     }
 
-    if (e.key !== 'Tab') return;
+    if (e.key !== 'Tab' || coarsePointer.matches) return;
 
     const focusables = getFocusables();
     if (focusables.length === 0) return;
@@ -75,10 +81,12 @@
   };
 
   openBtn?.addEventListener('click', open);
-  closeBtns.forEach((btn) => btn.addEventListener('click', close));
+  closeBtns.forEach((btn) => btn.addEventListener('click', () => close()));
 
   panel.querySelectorAll('a[href]').forEach((link) => {
-    link.addEventListener('click', close);
+    link.addEventListener('click', () => {
+      close({ restoreFocus: false });
+    });
   });
 
   document.addEventListener('keydown', onKeydown);

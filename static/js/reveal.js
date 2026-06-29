@@ -1,7 +1,10 @@
 (() => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const coarsePointer = window.matchMedia('(hover: none) and (pointer: coarse)');
 
-  document.querySelectorAll('.reveal').forEach((el) => {
+  const revealElements = document.querySelectorAll('.reveal');
+
+  revealElements.forEach((el) => {
     const delay = el.dataset.revealDelay;
     if (delay) {
       el.style.setProperty('--delay', delay);
@@ -16,19 +19,39 @@
     return;
   }
 
+  const showElement = (el) => {
+    el.classList.add('is-visible');
+  };
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
+          showElement(entry.target);
           observer.unobserve(entry.target);
         }
       });
     },
-    { threshold: 0.08, rootMargin: '0px 0px -32px 0px' },
+    {
+      threshold: coarsePointer.matches ? 0.01 : 0.08,
+      rootMargin: coarsePointer.matches ? '0px 0px 0px 0px' : '0px 0px -32px 0px',
+    },
   );
 
-  document.querySelectorAll('.reveal:not(.is-visible)').forEach((el) => {
+  revealElements.forEach((el) => {
+    if (el.classList.contains('is-visible')) {
+      return;
+    }
     observer.observe(el);
   });
+
+  if (coarsePointer.matches) {
+    window.setTimeout(() => {
+      revealElements.forEach((el) => {
+        if (!el.classList.contains('is-visible')) {
+          showElement(el);
+        }
+      });
+    }, 1200);
+  }
 })();

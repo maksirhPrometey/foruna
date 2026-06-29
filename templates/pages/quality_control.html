@@ -113,10 +113,10 @@
     {% if xray_products %}
       {% for prod in xray_products %}
         <div class="laser-grid reveal" data-reveal-delay=".1s">
-          <div class="laser-grid__image reveal">
+          <div class="laser-grid__image">
             {% include "partials/product_media.html" with product=prod frame_class="laser-img" show_placeholder=True placeholder_class="laser-img--placeholder" %}
           </div>
-          <div class="laser-grid__content reveal" data-reveal-delay=".15s">
+          <div class="laser-grid__content">
             <p class="label">{{ prod.get_category_display }}</p>
             <h3 class="subsection-title display">{{ prod.title }}</h3>
             {% if prod.subtitle %}
