@@ -68,17 +68,12 @@
       const styles = getComputedStyle(viewportProbe);
       const rect = viewportProbe.getBoundingClientRect();
       const height = Math.round(rect.height);
-      const ratio = styles.aspectRatio;
-      const ratioOk = ratio && ratio !== 'auto' && ratio !== '0 / 1';
+      const paddingBottom = styles.paddingBottom;
+      const heightOk = height >= 120;
       add(
-        ratioOk ? 'ok' : 'fail',
-        'Computed aspect-ratio viewport',
-        ratioOk ? ratio : (ratio || 'не застосовано'),
-      );
-      add(
-        height >= 120 ? 'ok' : 'fail',
-        'Висота viewport каруселі',
-        `${height}px (очікується ≥120px)`,
+        heightOk ? 'ok' : 'fail',
+        'Висота viewport каруселі (Safari)',
+        `${height}px, padding-bottom: ${paddingBottom}`,
       );
     }
 
